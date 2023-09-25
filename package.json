@@ -11,7 +11,10 @@
     "preview": "vite preview"
   },
   "jest": {
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/utils/styleMock.js"
+    }
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
