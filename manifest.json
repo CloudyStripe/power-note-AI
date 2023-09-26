@@ -7,14 +7,12 @@
         "default_popup": "index.html",
         "default_title": "Power Note AI"
     },
+    "side_panel": {
+            "default_path": "index.html"
+    },
     "permissions": [
         "storage",
-        "scripting"
-    ],
-    "content_scripts": [
-        {
-          "js": ["src/content.tsx"],
-          "matches": ["https://www.google.com/*"]
-        }
-      ]
+        "scripting",
+        "sidePanel"
+    ]
 }

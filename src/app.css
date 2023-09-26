@@ -1,0 +1,20 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    margin: auto;
+
+    & h1 {
+        margin:auto;
+        margin-bottom: 30px;
+    }
+
+    * {
+        margin-bottom: 30px;
+    }
+
+    .note {
+        width: 350px;
+        height: 150px;
+    }
+}
