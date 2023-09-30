@@ -41,6 +41,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.0.3",
     "react-test-renderer": "^18.2.0",
+    "sass": "^1.68.0",
     "ts-jest": "^29.1.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"

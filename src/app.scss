@@ -4,17 +4,18 @@
     width: fit-content;
     margin: auto;
 
-    & h1 {
-        margin:auto;
-        margin-bottom: 30px;
+    .note {
+        width: 350px;
+        height: 150px;
+    }
+
+    h1 {
+        margin:auto !important;
+        margin-bottom: 30px !important;
     }
 
     * {
         margin-bottom: 30px;
     }
 
-    .note {
-        width: 350px;
-        height: 150px;
-    }
 }
