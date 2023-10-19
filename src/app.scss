@@ -4,17 +4,31 @@
     width: fit-content;
     margin: auto;
 
+    .header {
+        margin: auto !important;
+        margin-bottom: 30px;
+    }
+
     .note {
         width: 350px;
         height: 150px;
+        padding: 0px;
+        margin-bottom: 30px;
     }
 
-    h1 {
-        margin:auto !important;
-        margin-bottom: 30px !important;
+    .noteResult {
+        font-family: monospace;
+        font-size: 13px;
+        border: 1px solid rgb(118,118,118);
+        border-radius: 3px;
+        background-color: #fff;
+        resize: both;
+        overflow: auto;
+        word-wrap: break-word;
+        margin-bottom: 30px;
     }
 
-    * {
+    .submitBtn {
         margin-bottom: 30px;
     }
 
