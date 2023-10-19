@@ -1,11 +1,16 @@
-#container {
+.container {
     display: flex;
     flex-direction: column;
     width: fit-content;
     margin: auto;
 
+    .buttonContainer {
+        display: flex;
+        justify-content: space-between;
+    }
+
     .header {
-        margin: auto !important;
+        margin: auto;
         margin-bottom: 30px;
     }
 
@@ -28,7 +33,7 @@
         margin-bottom: 30px;
     }
 
-    .submitBtn {
+    .submitBtn, .clearBtn {
         margin-bottom: 30px;
     }
 

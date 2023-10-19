@@ -23,7 +23,7 @@ describe('App', () => {
 
         renderComponent()
 
-        const el = document.getElementById('container')
+        const el = document.querySelector('.container')
         expect(el).not.toBeNull()
     })
 
@@ -31,13 +31,26 @@ describe('App', () => {
         
         renderComponent()
 
-        const textInput = document.querySelector('.noteInput')
-        const submitBtn = document.querySelector('#submitBtn')
+        const noteInput = document.querySelector('.noteInput')
+        const submitBtn = document.querySelector('.submitBtn')
 
-        fireEvent.change(textInput!, { target: { value: 'Hello, World!' }})
+        fireEvent.change(noteInput!, { target: { value: 'Hello, World!' }})
         fireEvent.click(submitBtn!)
 
         expect(mockNotes).toHaveBeenCalledWith('Hello, World!')
+    })
+
+    it('clearButton clears user notes', () => {
+        
+        renderComponent()
+
+        const textInput = document.querySelector('.noteInput')
+        const clearBtn = document.querySelector('.clearBtn')
+
+        fireEvent.change(textInput!, { target: { value: 'Hello, World!' }})
+        fireEvent.click(clearBtn!)
+
+        expect(textInput!.innerHTML).toBe('')
     })
 })
 
