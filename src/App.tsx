@@ -4,7 +4,7 @@ import './app.scss'
 
 export const App = () => {
 
-  const [userNotes, setUserNotes] = useState<string | null>(null)
+  const [userNotes, setUserNotes] = useState<string | ''>('')
   const [generatedNotes, setGeneratedNotes] = useState<string>('')
 
   const submitNotes = async () => {
@@ -24,14 +24,23 @@ export const App = () => {
     processNotes()
   }
 
+  const clearNotes = () => {
+    setUserNotes('')
+  }
+
   return (
-    <div id="container">
+    <div className="container">
       <h1 className="header">Power Note AI</h1>
       <textarea
         className="note noteInput"
         onChange={(e) => { setUserNotes(e.target.value) }}
-        placeholder="Insert notes..."></textarea>
-      <button id="submitBtn" className="submitBtn" onClick={() => submitNotes()}>Submit</button>
+        value={userNotes}
+        placeholder="Insert notes...">
+      </textarea>
+      <div className="buttonContainer">
+        <button className="clearBtn" onClick={() => clearNotes()}>Clear</button>
+        <button className="submitBtn" onClick={() => submitNotes()}>Submit</button>
+      </div>
       <div 
         className="note noteResult" 
         dangerouslySetInnerHTML={{ __html: generatedNotes! }} 
