@@ -4,6 +4,10 @@
     width: fit-content;
     margin: auto;
 
+    .button {
+        margin-bottom: 30px;
+    }
+
     .buttonContainer {
         display: flex;
         justify-content: space-between;
@@ -30,10 +34,6 @@
         resize: both;
         overflow: auto;
         word-wrap: break-word;
-        margin-bottom: 30px;
-    }
-
-    .submitBtn, .clearBtn {
         margin-bottom: 30px;
     }
 
