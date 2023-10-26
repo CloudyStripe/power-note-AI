@@ -12,7 +12,9 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": ["./setupJest.js"],
+    "setupFilesAfterEnv": [
+      "./setupJest.js"
+    ],
     "moduleNameMapper": {
       "\\.css$": "./styleMock.js",
       "\\.scss$": "./styleMock.js"
@@ -20,6 +22,9 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@types/file-saver": "^2.0.6",
+    "file-saver": "^2.0.5",
+    "html-to-docx": "^1.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -28,6 +33,7 @@
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.22.15",
     "@crxjs/vite-plugin": "^2.0.0-beta.18",
+    "@inrupt/jest-jsdom-polyfills": "^2.5.0",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.5",
     "@types/react": "^18.2.15",
@@ -47,6 +53,7 @@
     "sass": "^1.68.0",
     "ts-jest": "^29.1.1",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-node-stdlib-browser": "^0.2.1"
   }
 }

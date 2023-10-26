@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { noteService } from './note-service/note-service'
+import { noteService } from './note-service/note-service' 
+import HTMLtoDOCX from 'html-to-docx';
+import { saveAs } from 'file-saver'
 import './app.scss'
 
 export const App = () => {
@@ -24,6 +26,16 @@ export const App = () => {
     processNotes()
   }
 
+  const exportNotesDocX = async () => {
+    if(generatedNotes){
+      const docXBlob = await HTMLtoDOCX(generatedNotes)
+      saveAs(docXBlob, 'notes.docx')
+    }
+    if(!generatedNotes){
+      console.log('No notes to export')
+    }
+  }
+
   const clearNotes = () => {
     setUserNotes('')
   }
@@ -38,15 +50,18 @@ export const App = () => {
         placeholder="Insert notes...">
       </textarea>
       <div className="buttonContainer">
-        <button className="clearBtn" onClick={() => clearNotes()}>Clear</button>
-        <button className="submitBtn" onClick={() => submitNotes()}>Submit</button>
+        <button className="button clearBtn" onClick={clearNotes}>Clear</button>
+        <button className="button submitBtn" onClick={submitNotes}>Submit</button>
       </div>
       <div 
         className="note noteResult" 
         dangerouslySetInnerHTML={{ __html: generatedNotes! }} 
         placeholder="Generate notes..."
-        contentEditable={true}
       />
+      <div className="buttonContainer">
+        <button className="button docXBtn" onClick={exportNotesDocX}>Export DocX</button>
+        <button className="button">Export Google Docs</button>
+      </div>
     </div>
   )
 }
