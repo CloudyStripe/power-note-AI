@@ -50,17 +50,16 @@ export const App = () => {
         placeholder="Insert notes...">
       </textarea>
       <div className="buttonContainer">
-        <button className="button" onClick={clearNotes}>Clear</button>
-        <button className="button" onClick={submitNotes}>Submit</button>
+        <button className="button clearBtn" onClick={clearNotes}>Clear</button>
+        <button className="button submitBtn" onClick={submitNotes}>Submit</button>
       </div>
       <div 
         className="note noteResult" 
         dangerouslySetInnerHTML={{ __html: generatedNotes! }} 
         placeholder="Generate notes..."
-        contentEditable={true}
       />
       <div className="buttonContainer">
-        <button className="button" onClick={exportNotesDocX}>Export DocX</button>
+        <button className="button docXBtn" onClick={exportNotesDocX}>Export DocX</button>
         <button className="button">Export Google Docs</button>
       </div>
     </div>

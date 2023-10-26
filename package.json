@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@types/file-saver": "^2.0.6",
     "file-saver": "^2.0.5",
     "html-to-docx": "^1.8.0",
     "react": "^18.2.0",
@@ -32,6 +33,7 @@
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.22.15",
     "@crxjs/vite-plugin": "^2.0.0-beta.18",
+    "@inrupt/jest-jsdom-polyfills": "^2.5.0",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.5",
     "@types/react": "^18.2.15",
