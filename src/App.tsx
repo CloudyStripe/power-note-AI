@@ -42,7 +42,7 @@ export const App = () => {
 
   return (
     <div className="container">
-      <h1 className="header">Power Note AI</h1>
+      <img className="header" src="./public/images/header.png"></img>
       <textarea
         className="note noteInput"
         onChange={(e) => { setUserNotes(e.target.value) }}

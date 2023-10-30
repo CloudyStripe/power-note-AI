@@ -14,12 +14,14 @@
     }
 
     .header {
+        display: block;
+        height: 75px;
         margin: auto;
-        margin-bottom: 30px;
+        margin-bottom: 50px;
     }
 
     .note {
-        width: 350px;
+        width: 550px;
         height: 150px;
         padding: 0px;
         margin-bottom: 30px;
