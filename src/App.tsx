@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { noteService } from './note-service/note-service' 
+import { noteService } from './note-service/note-service'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
 import HTMLtoDOCX from 'html-to-docx';
 import { saveAs } from 'file-saver'
 import './app.scss'
