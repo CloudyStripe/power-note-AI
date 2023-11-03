@@ -13,11 +13,11 @@
   "jest": {
     "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
-      "./setupJest.js"
+      "<rootDir>/setupJest.js"
     ],
     "moduleNameMapper": {
-      "\\.css$": "./styleMock.js",
-      "\\.scss$": "./styleMock.js"
+      "\\.css$": "<rootDir>/styleMock.js",
+      "\\.scss$": "<rootDir>/styleMock.js"
     }
   },
   "dependencies": {

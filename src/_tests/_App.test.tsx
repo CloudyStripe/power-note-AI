@@ -1,4 +1,4 @@
-import { act, fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { App } from '../App'
 
 const mockNotes = jest.fn((arg: string) => {
@@ -65,19 +65,19 @@ describe('App', () => {
         renderComponent()
 
         const noteInput = document.querySelector('.noteInput')
+        const noteResult = document.querySelector('.noteResult')
         const submitBtn = document.querySelector('.submitBtn')
         const exportBtn = document.querySelector('.docXBtn')
 
 
         fireEvent.change(noteInput!, { target: { value: 'Hello, World!' } })
+        fireEvent.click(submitBtn!);
 
-        await act(async () => {
-            fireEvent.click(submitBtn!);
-        });
+        await waitFor(() => {
+            expect(noteResult?.innerHTML).toEqual('Hello, World!')
+        })
 
-        await act(async () => {
-            fireEvent.click(exportBtn!);
-        });
+        fireEvent.click(exportBtn!);
 
         expect(mockHtmlExport).toHaveBeenCalled()
     })
