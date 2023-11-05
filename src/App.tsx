@@ -52,7 +52,7 @@ export const App = () => {
 
   return (
     <div className="container">
-      <img className="header" src="./public/images/header.png"></img>
+      <img className="header" src="/images/header.png"></img>
       <textarea
         className="note noteInput"
         onChange={(e) => { setUserNotes(e.target.value) }}
