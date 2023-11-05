@@ -11,6 +11,14 @@ export const App = () => {
   const [userNotes, setUserNotes] = useState<string | ''>('')
   const [generatedNotes, setGeneratedNotes] = useState<string>('')
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
+    if(message){
+      setUserNotes(message)
+      sendResponse({status: 'success'})
+    }
+  })  
+
   const submitNotes = async () => {
     const connection = await noteService(userNotes!)
     const reader = connection?.body?.getReader()

@@ -4,10 +4,9 @@ import './App.scss'
 export const App = () => {
 
     const [dialogPosition, setDialogPosition] = useState({ top: 0, left: 0 });
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
+    const [selectedText, setSelectedText] = useState<string>('')
     const buttonRef = useRef<HTMLButtonElement | null>(null)
-
-    const submitButton = buttonRef.current
 
     const changeHighlightColor = () => {
         const style = document.createElement('style');
@@ -15,9 +14,16 @@ export const App = () => {
         document.head.appendChild(style);
     };
 
-    const handleSubmit = (event: MouseEvent) => {
-        console.log('Submitted')
-        console.log(event)
+
+    const handleSubmit = async () => {
+        try {
+            const response = await chrome.runtime.sendMessage(selectedText)
+            console.log(response)
+        }
+
+        catch {
+            console.log('Error. Please try again.')
+        }
     }
 
     const handleMouseUp = (event: MouseEvent) => {
@@ -35,6 +41,9 @@ export const App = () => {
         }
 
         if (selection && !selection.isCollapsed) {
+
+            setSelectedText(selection.toString())
+
             const range = selection.getRangeAt(0);
             const rect = range.getBoundingClientRect();
             let top = rect.bottom + window.scrollY;
@@ -84,13 +93,32 @@ export const App = () => {
 
     changeHighlightColor();
 
-    if (submitButton && open) {
-        submitButton.addEventListener('click', handleSubmit);
-    }
     document.addEventListener('mousedown', handleMouseDown);
     document.addEventListener("mouseup", handleMouseUp);
 
+    return () => {
+        document.removeEventListener('mousedown', handleMouseDown)
+        document.removeEventListener('mouseup', handleMouseDown)
+    };
+    
+
    }, [])
+
+   useEffect(() => {
+    if(open && buttonRef.current){
+        buttonRef.current.addEventListener('click', handleSubmit)
+    }
+
+    if(!open && buttonRef.current){
+        buttonRef.current.removeEventListener('click', handleSubmit)
+    }
+
+    return () => {
+        if (buttonRef.current) {
+            buttonRef.current.removeEventListener('click', handleSubmit);
+        }
+    };
+   }, [open])
 
 
     return open && (

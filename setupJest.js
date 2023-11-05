@@ -13,3 +13,15 @@ if (!Range.prototype.getBoundingClientRect) {
       };
     };
   }
+
+  if (!global.chrome) {
+    global.chrome = {
+      runtime: {
+        // Mock any functions or properties you need
+        sendMessage: jest.fn(),
+        onMessage: {
+          addListener: jest.fn()
+        },
+      }
+    };
+  }
