@@ -23,5 +23,9 @@
                 "./src/content-script/content.tsx"
             ]
         }
-    ]
+    ],
+    "icons": {
+        "48": "images/logo-transparent.png",
+        "128": "images/logo-transparent.png"
+    }
 }
