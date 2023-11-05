@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@types/chrome": "^0.0.248",
     "@types/file-saver": "^2.0.6",
     "file-saver": "^2.0.5",
     "html-to-docx": "^1.8.0",
