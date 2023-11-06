@@ -1,4 +1,12 @@
+@import './themes/theme';
+
+html {
+    background-color: $background_dark_mode;
+}
+
 .container {
+    color: $text_dark_mode;
+
     display: flex;
     flex-direction: column;
     width: fit-content;
@@ -32,7 +40,7 @@
         font-size: 13px;
         border: 1px solid rgb(118,118,118);
         border-radius: 3px;
-        background-color: #fff;
+        background-color: #e6e6e6;
         resize: both;
         overflow: auto;
         word-wrap: break-word;

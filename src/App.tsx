@@ -4,7 +4,7 @@ import { noteService } from './note-service/note-service'
 //@ts-ignore
 import HTMLtoDOCX from 'html-to-docx';
 import { saveAs } from 'file-saver'
-import './app.scss'
+import './App.scss'
 
 export const App = () => {
 
@@ -12,12 +12,7 @@ export const App = () => {
   const [generatedNotes, setGeneratedNotes] = useState<string>('')
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
-    if(message){
-      setUserNotes(message)
-      sendResponse({status: 'success'})
-    }
-  })  
+
 
   const submitNotes = async () => {
     const connection = await noteService(userNotes!)
@@ -52,7 +47,7 @@ export const App = () => {
 
   return (
     <div className="container">
-      <img className="header" src="/images/header.png"></img>
+      <img className="header" src="/images/header_dark.png"></img>
       <textarea
         className="note noteInput"
         onChange={(e) => { setUserNotes(e.target.value) }}
