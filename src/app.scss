@@ -1,18 +1,20 @@
 @import './themes/theme';
 
-html {
-    background-color: $background_dark_mode;
-}
-
 .container {
-    color: $text_dark_mode;
-
     display: flex;
     flex-direction: column;
     width: fit-content;
     margin: auto;
 
+    .ant-btn:hover {
+        color: #E94444 !important;
+        border-color: #E94444 !important;
+    }
+
     .button {
+        background-color: $secondary_dark_mode;
+        color: $primary_dark_mode;
+        font-weight: bold;
         margin-bottom: 30px;
     }
 
@@ -40,7 +42,7 @@ html {
         font-size: 13px;
         border: 1px solid rgb(118,118,118);
         border-radius: 3px;
-        background-color: #e6e6e6;
+        background-color: $secondary_dark_mode;
         resize: both;
         overflow: auto;
         word-wrap: break-word;

@@ -4,6 +4,8 @@ import { noteService } from './note-service/note-service'
 //@ts-ignore
 import HTMLtoDOCX from 'html-to-docx';
 import { saveAs } from 'file-saver'
+import { Button } from 'antd';
+import { ClearOutlined, SendOutlined, FileWordOutlined, GoogleOutlined } from '@ant-design/icons'
 import './App.scss'
 
 export const App = () => {
@@ -12,7 +14,12 @@ export const App = () => {
   const [generatedNotes, setGeneratedNotes] = useState<string>('')
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
+  chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
+    if(message){
+      setUserNotes(message)
+      sendResponse({status: 'success'})
+    }
+  }) 
 
   const submitNotes = async () => {
     const connection = await noteService(userNotes!)
@@ -55,8 +62,18 @@ export const App = () => {
         placeholder="Insert notes...">
       </textarea>
       <div className="buttonContainer">
-        <button className="button clearBtn" onClick={clearNotes}>Clear</button>
-        <button className="button submitBtn" onClick={submitNotes}>Submit</button>
+        <Button 
+          className="button clearBtn"
+          icon={<ClearOutlined />}
+          onClick={clearNotes} 
+          size="large"
+        >
+          Clear
+        </Button>
+        <Button 
+          className="button submitBtn" 
+          icon={<SendOutlined />}
+          onClick={submitNotes} size="large">Submit</Button>
       </div>
       <div 
         className="note noteResult" 
@@ -64,8 +81,21 @@ export const App = () => {
         placeholder="Generate notes..."
       />
       <div className="buttonContainer">
-        <button className="button docXBtn" onClick={exportNotesDocX}>Export DocX</button>
-        <button className="button">Export Google Docs</button>
+        <Button 
+          className="button docXBtn" 
+          icon={<FileWordOutlined />}
+          onClick={exportNotesDocX} 
+          size="large"
+        >
+        Export DocX
+        </Button>
+        <Button 
+          className="button" 
+          icon={<GoogleOutlined />}
+          size="large"
+        >
+        Export Google Docs
+        </Button>
       </div>
     </div>
   )
