@@ -1,8 +1,14 @@
 @import './themes/theme';
 
-.container {
+html {
+    background-color: $primary_dark_mode;
+}
+
+.panelContainer {
+
     display: flex;
     flex-direction: column;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     width: fit-content;
     margin: auto;
 

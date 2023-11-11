@@ -1,14 +1,21 @@
+@import '../themes/theme';
 
 .submitButtonContainer {
 
-    .submitButton {
-        background-color: black;
-        color: white;
-        height: 75px;
-        width: fit-content;
-        position: absolute;
-        transform: 'translate(0, 5px)';
-        z-index: 999
+    background-color: $primary_dark_mode !important;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    position: absolute !important;
+    transform: 'translate(0, 5px)';
+    z-index: 999;
+
+    .ant-btn {
+        background-color: $secondary_dark_mode;
+        color: $primary_dark_mode;
+    }
+
+    .ant-btn:hover {
+        color: #E94444 !important;
+        border-color: #E94444 !important;
     }
 
 }
