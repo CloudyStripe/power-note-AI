@@ -16,7 +16,7 @@ export const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
     if(message){
-      setUserNotes(message)
+      setUserNotes(userNotes + '\n\n' + message)
       sendResponse({status: 'success'})
     }
   }) 
@@ -53,8 +53,8 @@ export const App = () => {
   }
 
   return (
-    <div className="container">
-      <img className="header" src="/images/header_dark.png"></img>
+    <div className="panelContainer">
+      <img className="header" src="/images/header-dark.png"></img>
       <textarea
         className="note noteInput"
         onChange={(e) => { setUserNotes(e.target.value) }}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { Button, Card } from "antd";
 import './App.scss'
 
 export const App = () => {
@@ -13,7 +14,6 @@ export const App = () => {
         style.innerHTML = `::selection { background: yellow; color: black; }`;
         document.head.appendChild(style);
     };
-
 
     const handleSubmit = async () => {
         try {
@@ -101,7 +101,6 @@ export const App = () => {
         document.removeEventListener('mouseup', handleMouseDown)
     };
     
-
    }, [])
 
    useEffect(() => {
@@ -122,8 +121,8 @@ export const App = () => {
 
 
     return open && (
-        <div className="submitButtonContainer">
-            <button ref={buttonRef} className="submitButton" style={{ top: `${dialogPosition.top}px`, left: `${dialogPosition.left}px` }}>Submit</button>
-        </div>
+        <Card className="submitButtonContainer" style={{ top: `${dialogPosition.top}px`, left: `${dialogPosition.left}px` }}>
+            <Button ref={buttonRef} className="submitButton">Submit</Button>
+        </Card>
     )
 }
