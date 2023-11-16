@@ -12,6 +12,7 @@ export const App = () => {
 
   const [userNotes, setUserNotes] = useState<string | ''>('')
   const [generatedNotes, setGeneratedNotes] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
@@ -22,12 +23,14 @@ export const App = () => {
   }) 
 
   const submitNotes = async () => {
+    setLoading(true)
     const connection = await noteService(userNotes!)
     const reader = connection?.body?.getReader()
 
     const processNotes = async () => {
       const { done, value } = await reader!.read()
       if (done){
+        setLoading(false)
         return
       }
       const textChunk = new TextDecoder().decode(value)
@@ -73,7 +76,11 @@ export const App = () => {
         <Button 
           className="button submitBtn" 
           icon={<SendOutlined />}
-          onClick={submitNotes} size="large">Submit</Button>
+          loading={loading}
+          onClick={submitNotes} size="large"
+          >
+            Submit
+        </Button>
       </div>
       <div 
         className="note noteResult" 

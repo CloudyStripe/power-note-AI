@@ -43,7 +43,7 @@ describe('App', () => {
 
         renderComponent()
 
-        const el = document.querySelector('.container')
+        const el = document.querySelector('.panelContainer')
         expect(el).not.toBeNull()
     })
 
