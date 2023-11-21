@@ -5,7 +5,7 @@ import { noteService } from './note-service/note-service'
 import HTMLtoDOCX from 'html-to-docx';
 import { saveAs } from 'file-saver'
 import { Button } from 'antd';
-import { ClearOutlined, SendOutlined, FileWordOutlined, GoogleOutlined } from '@ant-design/icons'
+import { ClearOutlined, SendOutlined, FileWordOutlined, GoogleOutlined, SaveOutlined } from '@ant-design/icons'
 import './App.scss'
 
 export const App = () => {
@@ -29,7 +29,7 @@ export const App = () => {
 
     const processNotes = async () => {
       const { done, value } = await reader!.read()
-      if (done){
+      if (done) {
         setLoading(false)
         return
       }
@@ -42,17 +42,21 @@ export const App = () => {
   }
 
   const exportNotesDocX = async () => {
-    if(generatedNotes){
+    if (generatedNotes) {
       const docXBlob = await HTMLtoDOCX(generatedNotes)
       saveAs(docXBlob, 'notes.docx')
     }
-    if(!generatedNotes){
+    if (!generatedNotes) {
       console.log('No notes to export')
     }
   }
 
-  const clearNotes = () => {
+  const clearRawNotes = () => {
     setUserNotes('')
+  }
+
+  const clearGeneratedNotes = () => {
+    setGeneratedNotes('')
   }
 
   return (
@@ -65,43 +69,60 @@ export const App = () => {
         placeholder="Insert notes...">
       </textarea>
       <div className="buttonContainer">
-        <Button 
+        <Button
           className="button clearBtn"
           icon={<ClearOutlined />}
-          onClick={clearNotes} 
+          onClick={clearRawNotes}
           size="large"
         >
           Clear
         </Button>
-        <Button 
-          className="button submitBtn" 
+        <Button
+          className="button submitBtn"
           icon={<SendOutlined />}
           loading={loading}
           onClick={submitNotes} size="large"
-          >
-            Submit
+        >
+          Submit
         </Button>
       </div>
-      <div 
-        className="note noteResult" 
-        dangerouslySetInnerHTML={{ __html: generatedNotes! }} 
+      <div
+        className="note noteResult"
+        dangerouslySetInnerHTML={{ __html: generatedNotes! }}
         placeholder="Generate notes..."
       />
       <div className="buttonContainer">
-        <Button 
-          className="button docXBtn" 
-          icon={<FileWordOutlined />}
-          onClick={exportNotesDocX} 
+        <Button
+          className="button clearGeneratedBtn"
+          icon={<ClearOutlined />}
+          onClick={clearGeneratedNotes}
           size="large"
         >
-        Export DocX
+          Clear
         </Button>
-        <Button 
-          className="button" 
+        <Button
+          className="button savePageBtn"
+          icon={<SaveOutlined />}
+          size="large"
+        >
+          Save
+        </Button>
+      </div>
+      <div className="buttonContainer">
+        <Button
+          className="button docXBtn"
+          icon={<FileWordOutlined />}
+          onClick={exportNotesDocX}
+          size="large"
+        >
+          DocX
+        </Button>
+        <Button
+          className="button"
           icon={<GoogleOutlined />}
           size="large"
         >
-        Export Google Docs
+          Google Docs
         </Button>
       </div>
     </div>

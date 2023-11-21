@@ -82,7 +82,7 @@ describe('App', () => {
         expect(mockHtmlExport).toHaveBeenCalled()
     })
 
-    it('clear button clears inputs', () => {
+    it('clear input button clears inputs', () => {
 
         renderComponent()
 
@@ -94,6 +94,29 @@ describe('App', () => {
 
         expect(textInput!.innerHTML).toBe('')
     })
+
+    it('clear generated notes button clears generated notes', async () => {
+        renderComponent()
+
+        const noteInput = document.querySelector('.noteInput')
+        const noteResult = document.querySelector('.noteResult')
+        const submitBtn = document.querySelector('.submitBtn')
+        const clearBtn = document.querySelector('.clearGeneratedBtn')
+
+
+        fireEvent.change(noteInput!, { target: { value: 'Hello, World!' } })
+        fireEvent.click(submitBtn!);
+
+        await waitFor(() => {
+            expect(noteResult?.innerHTML).toEqual('Hello, World!')
+        })
+
+        fireEvent.click(clearBtn!)
+        expect(noteResult?.innerHTML).toEqual('')
+
+    })
+
+    
 })
 
 const renderComponent = () => {
