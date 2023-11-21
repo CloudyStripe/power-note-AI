@@ -4,7 +4,7 @@ import { noteService } from './note-service/note-service'
 //@ts-ignore
 import HTMLtoDOCX from 'html-to-docx';
 import { saveAs } from 'file-saver'
-import { Button } from 'antd';
+import { Button, Divider } from 'antd';
 import { ClearOutlined, SendOutlined, FileWordOutlined, GoogleOutlined, SaveOutlined } from '@ant-design/icons'
 import './App.scss'
 
@@ -73,7 +73,6 @@ export const App = () => {
           className="button clearBtn"
           icon={<ClearOutlined />}
           onClick={clearRawNotes}
-          size="large"
         >
           Clear
         </Button>
@@ -81,7 +80,7 @@ export const App = () => {
           className="button submitBtn"
           icon={<SendOutlined />}
           loading={loading}
-          onClick={submitNotes} size="large"
+          onClick={submitNotes}
         >
           Submit
         </Button>
@@ -96,34 +95,33 @@ export const App = () => {
           className="button clearGeneratedBtn"
           icon={<ClearOutlined />}
           onClick={clearGeneratedNotes}
-          size="large"
         >
           Clear
         </Button>
         <Button
           className="button savePageBtn"
           icon={<SaveOutlined />}
-          size="large"
         >
           Save
         </Button>
       </div>
-      <div className="buttonContainer">
-        <Button
-          className="button docXBtn"
-          icon={<FileWordOutlined />}
-          onClick={exportNotesDocX}
-          size="large"
-        >
-          DocX
-        </Button>
-        <Button
-          className="button"
-          icon={<GoogleOutlined />}
-          size="large"
-        >
-          Google Docs
-        </Button>
+      <div className="exportContainer">
+        <Divider className="divider">Export</Divider>
+        <div className="buttonContainer">
+          <Button
+            className="button docXBtn"
+            icon={<FileWordOutlined />}
+            onClick={exportNotesDocX}
+          >
+            DocX
+          </Button>
+          <Button
+            className="button"
+            icon={<GoogleOutlined />}
+          >
+            Google Docs
+          </Button>
+        </div>
       </div>
     </div>
   )
