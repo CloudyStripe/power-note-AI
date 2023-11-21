@@ -12,6 +12,10 @@ html {
     width: fit-content;
     margin: auto;
 
+    textarea {
+        resize: none;
+    }
+
     .ant-btn:hover {
         color: #E94444 !important;
         border-color: #E94444 !important;
@@ -21,12 +25,29 @@ html {
         background-color: $secondary_dark_mode;
         color: $primary_dark_mode;
         font-weight: bold;
+        font-size: 12px;
         margin-bottom: 30px;
+        width: 120px;
     }
 
     .buttonContainer {
         display: flex;
         justify-content: space-between;
+    }
+
+    .ant-divider {
+        color: $secondary_dark_mode;
+    }
+
+    .ant-divider-horizontal.ant-divider-with-text-center::before,
+    .ant-divider-horizontal.ant-divider-with-text-center::after {
+        border-top: 1px solid $secondary_dark_mode;
+    }
+
+    .exportContainer {
+        width: 80%;
+        padding-top: 50px;
+        margin: auto;
     }
 
     .header {
@@ -37,22 +58,24 @@ html {
     }
 
     .note {
-        width: 550px;
+        width: 500px;
         height: 150px;
-        padding: 0px;
+        padding: 10px;
         margin-bottom: 30px;
     }
 
     .noteResult {
         font-family: monospace;
         font-size: 13px;
-        border: 1px solid rgb(118,118,118);
+        border: 1px solid rgb(118, 118, 118);
         border-radius: 3px;
         background-color: $secondary_dark_mode;
-        resize: both;
+        padding: 10px;
+        resize: none;
         overflow: auto;
         word-wrap: break-word;
         margin-bottom: 30px;
+        width: 500px;
     }
 
 }
