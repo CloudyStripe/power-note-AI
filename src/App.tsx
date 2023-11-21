@@ -3,6 +3,7 @@ import { noteService } from './note-service/note-service'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 import HTMLtoDOCX from 'html-to-docx';
+import DOMPurify from 'dompurify';
 import { saveAs } from 'file-saver'
 import { Button, Divider } from 'antd';
 import { ClearOutlined, SendOutlined, FileWordOutlined, GoogleOutlined, SaveOutlined } from '@ant-design/icons'
@@ -15,12 +16,6 @@ export const App = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
-    if(message){
-      setUserNotes(userNotes + '\n\n' + message)
-      sendResponse({status: 'success'})
-    }
-  }) 
 
   const submitNotes = async () => {
     setLoading(true)
@@ -87,7 +82,7 @@ export const App = () => {
       </div>
       <div
         className="note noteResult"
-        dangerouslySetInnerHTML={{ __html: generatedNotes! }}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(generatedNotes!) }}
         placeholder="Generate notes..."
       />
       <div className="buttonContainer">
