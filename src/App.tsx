@@ -91,7 +91,7 @@ export const App = () => {
   }
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page); // Adjust for zero-based indexing
+    setCurrentPage(page);
     setGeneratedNotes(noteCatalog[page - 1]?.notes || '');
   }
 
