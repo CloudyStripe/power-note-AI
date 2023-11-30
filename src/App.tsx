@@ -5,14 +5,17 @@ import { noteService } from './note-service/note-service'
 import HTMLtoDOCX from 'html-to-docx';
 import DOMPurify from 'dompurify';
 import { saveAs } from 'file-saver'
-import { Button, Divider } from 'antd';
-import { ClearOutlined, SendOutlined, FileWordOutlined, GoogleOutlined, SaveOutlined } from '@ant-design/icons'
+import { Button, Divider, Pagination } from 'antd';
+import { ClearOutlined, SendOutlined, FileWordOutlined, GoogleOutlined, SaveOutlined, DeleteOutlined } from '@ant-design/icons'
 import './App.scss'
+import { savedPage } from './utils/types/form-types';
 
 export const App = () => {
 
+  const [currentPage, setCurrentPage] = useState(0)
   const [userNotes, setUserNotes] = useState<string | ''>('')
   const [generatedNotes, setGeneratedNotes] = useState<string>('')
+  const [noteCatalog, setNoteCatalog] = useState<savedPage[] | []>([])
   const [loading, setLoading] = useState<boolean>(false)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -51,8 +54,41 @@ export const App = () => {
   }
 
   const clearGeneratedNotes = () => {
-    setGeneratedNotes('')
+
+    if (noteCatalog.length >= 1) {
+      const updatedCatalog = noteCatalog.filter(x => x.page !== (currentPage - 1))
+      setNoteCatalog(updatedCatalog)
+      setGeneratedNotes('')
+
+      updatedCatalog.length === 0 ? setCurrentPage(1) : setCurrentPage(noteCatalog.length)
+    }
+
+    if (noteCatalog.length === 0) {
+      setGeneratedNotes('')
+      setCurrentPage(1)
+    }
   }
+
+  const handleSave = (note: string) => {
+
+    setNoteCatalog(prevValue => {
+
+      const updatedArray = [...prevValue, { notes: note, page: noteCatalog.length }]
+      setCurrentPage(updatedArray.length + 1)
+
+      return updatedArray
+
+    })
+    setGeneratedNotes('')
+
+  }
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page); // Adjust for zero-based indexing
+    setGeneratedNotes(noteCatalog[page - 1]?.notes || '');
+  }
+
+  console.log((noteCatalog.length !== 1 && (currentPage !== noteCatalog.length - 1 && generatedNotes != '')))
 
   return (
     <div className="panelContainer">
@@ -88,18 +124,28 @@ export const App = () => {
       <div className="buttonContainer">
         <Button
           className="button clearGeneratedBtn"
-          icon={<ClearOutlined />}
+          icon={<DeleteOutlined />}
           onClick={clearGeneratedNotes}
         >
-          Clear
+          Delete
         </Button>
         <Button
           className="button savePageBtn"
           icon={<SaveOutlined />}
+          onClick={() => handleSave(generatedNotes)}
         >
           Save
         </Button>
       </div>
+      <Pagination
+        hideOnSinglePage
+        className="pageContainer"
+        current={currentPage}
+        onChange={(page => handlePageChange(page))}
+        pageSize={1}
+        showLessItems={true}
+        total={noteCatalog.length + 1}
+      />
       <div className="exportContainer">
         <Divider className="divider">Export</Divider>
         <div className="buttonContainer">

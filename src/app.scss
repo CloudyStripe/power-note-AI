@@ -44,9 +44,40 @@ html {
         border-top: 1px solid $secondary_dark_mode;
     }
 
+    .ant-pagination-item {
+        background-color: $primary_dark_mode !important;
+    }
+
+    .ant-pagination-item a {
+        color: $secondary_dark_mode;
+    }
+
+    .ant-pagination-item-link {
+        color: $secondary_dark_mode !important;
+        background-color: $primary_dark_mode !important;
+    }
+
+    .ant-pagination-item a:hover, .ant-pagination-item-link:hover {
+        color: #E94444 !important;
+    }
+
+    .ant-pagination-item-active {
+        background-color: $secondary_dark_mode !important;
+        border-color: #E94444;
+        
+        a {
+            color:#E94444;
+        }
+    }
+
+    .ant-pagination .ant-pagination-item-active:hover {
+        background-color: $secondary_dark_mode !important;
+        border-color: #E94444 !important;
+    }
+
     .exportContainer {
         width: 80%;
-        padding-top: 50px;
+        padding-top: 25px;
         margin: auto;
     }
 
@@ -76,6 +107,12 @@ html {
         word-wrap: break-word;
         margin-bottom: 30px;
         width: 500px;
+    }
+
+    .pageContainer {
+        margin: auto;
+        padding-top: 20px;
+        width: fit-content;
     }
 
 }
