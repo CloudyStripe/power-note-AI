@@ -34,6 +34,15 @@ jest.mock('file-saver', () => ({
     saveAs: jest.fn()
 }))
 
+jest.mock('antd', () =>{
+    const antd = jest.requireActual('antd')
+
+    return {
+        ...antd,
+        Pagination: () => <div className="pageContainer"></div>
+    }
+})
+
 jest.mock('html-to-docx', () => (() => mockHtmlExport()))
 
 describe('App', () => {
@@ -114,6 +123,38 @@ describe('App', () => {
         fireEvent.click(clearBtn!)
         expect(noteResult?.innerHTML).toEqual('')
 
+    })
+
+    it('empty note catalog -- no pages', () => {
+        renderComponent()
+
+        const pages = document.querySelector('.pageContainer')
+
+        expect(pages).toBeFalsy();
+    })
+
+    it('saving a page renders pagination', async () => {
+        renderComponent()
+
+
+        const noteInput = document.querySelector('.noteInput')
+        const noteResult = document.querySelector('.noteResult')
+        const submitBtn = document.querySelector('.submitBtn')
+        const saveBtn = document.querySelector('.savePageBtn')
+
+
+        fireEvent.change(noteInput!, { target: { value: 'Hello, World!' } })
+        fireEvent.click(submitBtn!);
+
+        await waitFor(() => {
+            expect(noteResult?.innerHTML).toEqual('Hello, World!')
+        })
+
+        fireEvent.click(saveBtn!)
+
+        const pages = document.querySelector('.pageContainer')
+
+        expect(pages).toBeTruthy();
     })
 
     

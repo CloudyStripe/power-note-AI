@@ -19,6 +19,13 @@ export const App = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
+    if(message){
+      setUserNotes(userNotes + '\n\n' + message)
+      sendResponse({status: 'success'})
+    }
+  }) 
+
 
   const submitNotes = async () => {
     setLoading(true)
@@ -137,8 +144,8 @@ export const App = () => {
           Save
         </Button>
       </div>
-      <Pagination
-        hideOnSinglePage
+      {noteCatalog.length > 0 && (
+        <Pagination
         className="pageContainer"
         current={currentPage}
         onChange={(page => handlePageChange(page))}
@@ -146,6 +153,7 @@ export const App = () => {
         showLessItems={true}
         total={noteCatalog.length + 1}
       />
+      )}
       <div className="exportContainer">
         <Divider className="divider">Export</Divider>
         <div className="buttonContainer">
