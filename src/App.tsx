@@ -74,9 +74,6 @@ export const App = () => {
     }
   }
 
-
-  console.log((noteCatalog.length !== 1 && (currentPage !== noteCatalog.length - 1 && generatedNotes != '')))
-
   return (
     <div className="panelContainer">
       <img className="header" src="/images/header-dark.png"></img>
