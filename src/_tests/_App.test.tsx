@@ -69,14 +69,14 @@ describe('App', () => {
         expect(mockNotes).toHaveBeenCalledWith('Hello, World!')
     })
 
-    it('export docx button calls export docx functions', async () => {
+    it('export button calls export docx function', async () => {
 
         renderComponent()
 
         const noteInput = document.querySelector('.noteInput')
         const noteResult = document.querySelector('.noteResult')
         const submitBtn = document.querySelector('.submitBtn')
-        const exportBtn = document.querySelector('.docXBtn')
+        const exportBtn = document.querySelector('.exportBtn')
 
 
         fireEvent.change(noteInput!, { target: { value: 'Hello, World!' } })
@@ -124,40 +124,6 @@ describe('App', () => {
         expect(noteResult?.innerHTML).toEqual('')
 
     })
-
-    it('empty note catalog -- no pages', () => {
-        renderComponent()
-
-        const pages = document.querySelector('.pageContainer')
-
-        expect(pages).toBeFalsy();
-    })
-
-    it('saving a page renders pagination', async () => {
-        renderComponent()
-
-
-        const noteInput = document.querySelector('.noteInput')
-        const noteResult = document.querySelector('.noteResult')
-        const submitBtn = document.querySelector('.submitBtn')
-        const saveBtn = document.querySelector('.savePageBtn')
-
-
-        fireEvent.change(noteInput!, { target: { value: 'Hello, World!' } })
-        fireEvent.click(submitBtn!);
-
-        await waitFor(() => {
-            expect(noteResult?.innerHTML).toEqual('Hello, World!')
-        })
-
-        fireEvent.click(saveBtn!)
-
-        const pages = document.querySelector('.pageContainer')
-
-        expect(pages).toBeTruthy();
-    })
-
-    
 })
 
 const renderComponent = () => {

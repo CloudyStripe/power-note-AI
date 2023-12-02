@@ -13,7 +13,7 @@ html {
     margin: auto;
 
     textarea {
-        resize: none;
+        resize: vertical;
     }
 
     .ant-btn:hover {
@@ -25,7 +25,6 @@ html {
         background-color: $secondary_dark_mode;
         color: $primary_dark_mode;
         font-weight: bold;
-        font-size: 12px;
         margin-bottom: 30px;
         width: 120px;
     }
@@ -35,45 +34,6 @@ html {
         justify-content: space-between;
     }
 
-    .ant-divider {
-        color: $secondary_dark_mode;
-    }
-
-    .ant-divider-horizontal.ant-divider-with-text-center::before,
-    .ant-divider-horizontal.ant-divider-with-text-center::after {
-        border-top: 1px solid $secondary_dark_mode;
-    }
-
-    .ant-pagination-item {
-        background-color: $primary_dark_mode !important;
-    }
-
-    .ant-pagination-item a {
-        color: $secondary_dark_mode;
-    }
-
-    .ant-pagination-item-link {
-        color: $secondary_dark_mode !important;
-        background-color: $primary_dark_mode !important;
-    }
-
-    .ant-pagination-item a:hover, .ant-pagination-item-link:hover {
-        color: #E94444 !important;
-    }
-
-    .ant-pagination-item-active {
-        background-color: $secondary_dark_mode !important;
-        border-color: #E94444;
-        
-        a {
-            color:#E94444;
-        }
-    }
-
-    .ant-pagination .ant-pagination-item-active:hover {
-        background-color: $secondary_dark_mode !important;
-        border-color: #E94444 !important;
-    }
 
     .exportContainer {
         width: 80%;
@@ -102,7 +62,7 @@ html {
         border-radius: 3px;
         background-color: $secondary_dark_mode;
         padding: 10px;
-        resize: none;
+        resize: vertical;
         overflow: auto;
         word-wrap: break-word;
         margin-bottom: 30px;
