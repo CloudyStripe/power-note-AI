@@ -5,8 +5,8 @@ import { noteService } from './note-service/note-service'
 import HTMLtoDOCX from 'html-to-docx';
 import DOMPurify from 'dompurify';
 import { saveAs } from 'file-saver'
-import { Button, Divider, Pagination } from 'antd';
-import { ClearOutlined, SendOutlined, FileWordOutlined, GoogleOutlined, SaveOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Button } from 'antd';
+import { ClearOutlined, SendOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons'
 import './App.scss'
 import { savedPage } from './utils/types/form-types';
 
@@ -25,8 +25,6 @@ export const App = () => {
       sendResponse({status: 'success'})
     }
   }) 
-
-
   const submitNotes = async () => {
     setLoading(true)
     const connection = await noteService(userNotes!)
@@ -76,27 +74,6 @@ export const App = () => {
     }
   }
 
-  const handleSave = (note: string) => {
-
-    setNoteCatalog(prevValue => {
-
-      const updatedArray = [...prevValue, { notes: note, page: noteCatalog.length }]
-      setCurrentPage(updatedArray.length + 1)
-
-      return updatedArray
-
-    })
-    setGeneratedNotes('')
-
-  }
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    setGeneratedNotes(noteCatalog[page - 1]?.notes || '');
-  }
-
-  console.log((noteCatalog.length !== 1 && (currentPage !== noteCatalog.length - 1 && generatedNotes != '')))
-
   return (
     <div className="panelContainer">
       <img className="header" src="/images/header-dark.png"></img>
@@ -137,40 +114,12 @@ export const App = () => {
           Delete
         </Button>
         <Button
-          className="button savePageBtn"
-          icon={<SaveOutlined />}
-          onClick={() => handleSave(generatedNotes)}
+          className="button exportBtn"
+          icon={<DownloadOutlined />}
+          onClick={exportNotesDocX}
         >
-          Save
+          Export
         </Button>
-      </div>
-      {noteCatalog.length > 0 && (
-        <Pagination
-        className="pageContainer"
-        current={currentPage}
-        onChange={(page => handlePageChange(page))}
-        pageSize={1}
-        showLessItems={true}
-        total={noteCatalog.length + 1}
-      />
-      )}
-      <div className="exportContainer">
-        <Divider className="divider">Export</Divider>
-        <div className="buttonContainer">
-          <Button
-            className="button docXBtn"
-            icon={<FileWordOutlined />}
-            onClick={exportNotesDocX}
-          >
-            DocX
-          </Button>
-          <Button
-            className="button"
-            icon={<GoogleOutlined />}
-          >
-            Google Docs
-          </Button>
-        </div>
       </div>
     </div>
   )
