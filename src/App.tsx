@@ -7,6 +7,7 @@ import { Button } from 'antd';
 import { ClearOutlined, SendOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons'
 import { savedPage } from './utils/types/form-types';
 import './App.scss'
+import { Nav } from './navbar/navbar';
 
 export const App = () => {
 
@@ -16,11 +17,17 @@ export const App = () => {
   const [noteCatalog, setNoteCatalog] = useState<savedPage[] | []>([])
   const [loading, setLoading] = useState<boolean>(false)
 
-  if(chrome.runtime){
+  if (chrome.runtime) {
     chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
-      if(message){
-        setUserNotes(userNotes + '\n\n' + message)
-        sendResponse({status: 'success'})
+      if (message) {
+        if(userNotes){
+          setUserNotes(userNotes + '\n\n' + message)
+        }
+        if(!userNotes){
+          setUserNotes(userNotes + message)
+        }
+
+        sendResponse({ status: 'success' })
       }
     })
   }
@@ -74,51 +81,52 @@ export const App = () => {
   }
 
   return (
-    <div className="panelContainer">
-      <img className="header" src="/images/header-dark.png"></img>
-      <textarea
-        className="note noteInput"
-        onChange={(e) => { setUserNotes(e.target.value) }}
-        value={userNotes}
-        placeholder="Insert notes...">
-      </textarea>
-      <div className="buttonContainer">
-        <Button
-          className="button clearBtn"
-          icon={<ClearOutlined />}
-          onClick={clearRawNotes}
-        >
-          Clear
-        </Button>
-        <Button
-          className="button submitBtn"
-          icon={<SendOutlined />}
-          loading={loading}
-          onClick={submitNotes}
-        >
-          Submit
-        </Button>
-      </div>
-      <div
-        className="note noteResult"
-        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(generatedNotes!) }}
-        placeholder="Generate notes..."
-      />
-      <div className="buttonContainer">
-        <Button
-          className="button clearGeneratedBtn"
-          icon={<DeleteOutlined />}
-          onClick={clearGeneratedNotes}
-        >
-          Delete
-        </Button>
-        <Button
-          className="button exportBtn"
-          icon={<DownloadOutlined />}
-          onClick={exportNotesDocX}
-        >
-          Export
-        </Button>
+    <div>
+      <Nav/>
+      <div className="panelContainer">
+        <textarea
+          className="note noteInput"
+          onChange={(e) => { setUserNotes(e.target.value); }}
+          value={userNotes}
+          placeholder="Insert notes...">
+        </textarea>
+        <div className="buttonContainer">
+          <Button
+            className="button clearBtn"
+            icon={<ClearOutlined />}
+            onClick={clearRawNotes}
+          >
+            Clear
+          </Button>
+          <Button
+            className="button submitBtn"
+            icon={<SendOutlined />}
+            loading={loading}
+            onClick={submitNotes}
+          >
+            Submit
+          </Button>
+        </div>
+        <div
+          className="note noteResult"
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(generatedNotes!) }}
+          placeholder="Generate notes..." />
+        <div className="buttonContainer">
+          <Button
+            className="button clearGeneratedBtn"
+            icon={<DeleteOutlined />}
+            onClick={clearGeneratedNotes}
+          >
+            Delete
+          </Button>
+          <Button
+            className="button exportBtn"
+            icon={<DownloadOutlined />}
+            onClick={exportNotesDocX}
+          >
+            Export
+          </Button>
+        </div>
       </div>
     </div>
   )
