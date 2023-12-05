@@ -1,14 +1,12 @@
 import { useState } from 'react'
 import { noteService } from './note-service/note-service'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
 import HTMLtoDOCX from 'html-to-docx';
 import DOMPurify from 'dompurify';
 import { saveAs } from 'file-saver'
 import { Button } from 'antd';
 import { ClearOutlined, SendOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons'
-import './App.scss'
 import { savedPage } from './utils/types/form-types';
+import './App.scss'
 
 export const App = () => {
 
@@ -18,13 +16,14 @@ export const App = () => {
   const [noteCatalog, setNoteCatalog] = useState<savedPage[] | []>([])
   const [loading, setLoading] = useState<boolean>(false)
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
-    if(message){
-      setUserNotes(userNotes + '\n\n' + message)
-      sendResponse({status: 'success'})
-    }
-  }) 
+  if(chrome.runtime){
+    chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
+      if(message){
+        setUserNotes(userNotes + '\n\n' + message)
+        sendResponse({status: 'success'})
+      }
+    })
+  }
   const submitNotes = async () => {
     setLoading(true)
     const connection = await noteService(userNotes!)
