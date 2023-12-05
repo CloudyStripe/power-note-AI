@@ -1,0 +1,30 @@
+@import '../themes/theme';
+
+
+.navContainer {
+
+    border-bottom: 2px solid $secondary_dark_mode;
+    display: flex;
+    justify-content: space-between;
+
+    .logo {
+        height: 50px;
+        padding: 10px 0px 15px 10px;
+        width: 50px;
+    }
+
+    .settingsIcon {
+
+        color: $secondary_dark_mode;
+        padding: 10px 10px 15px 0px;
+
+        svg {
+            height: 30px;
+            width: 30px;
+        }
+    }
+
+    .settingsIcon:hover {
+        color: $tertiary_dark_mode
+    }
+}
