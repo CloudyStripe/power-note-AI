@@ -5,17 +5,39 @@ import DOMPurify from 'dompurify';
 import { saveAs } from 'file-saver'
 import { Button } from 'antd';
 import { ClearOutlined, SendOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons'
-import { savedPage } from './utils/types/form-types';
 import './App.scss'
 import { Nav } from './navbar/navbar';
+import useNotification from 'antd/es/notification/useNotification';
 
 export const App = () => {
-
-  const [currentPage, setCurrentPage] = useState(0)
   const [userNotes, setUserNotes] = useState<string | ''>('')
   const [generatedNotes, setGeneratedNotes] = useState<string>('')
-  const [noteCatalog, setNoteCatalog] = useState<savedPage[] | []>([])
   const [loading, setLoading] = useState<boolean>(false)
+
+  const [api, contextHolder] = useNotification()
+
+  const triggerNotification = (status: string) => {
+    if(status === 'success'){
+      api.success({
+        className: "notification",
+        message: "Success!",
+        description: "Your organized notes are ready.",
+        placement: "bottomRight",
+        duration: 5
+      })
+      setLoading(false)
+    }
+    if(status === 'error'){
+      api.error({
+        className: "notification",
+        message: "Oops!",
+        description: "There was an issue submitting your notes. Please try again.",
+        placement: "bottomRight",
+        duration: 5
+      })
+      setLoading(false)
+    }
+  }
 
   if (chrome.runtime) {
     chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
@@ -31,15 +53,19 @@ export const App = () => {
       }
     })
   }
+
   const submitNotes = async () => {
-    setLoading(true)
+  
+  setLoading(true)
+
+   try{
     const connection = await noteService(userNotes!)
     const reader = connection?.body?.getReader()
 
     const processNotes = async () => {
       const { done, value } = await reader!.read()
       if (done) {
-        setLoading(false)
+        triggerNotification('success')
         return
       }
       const textChunk = new TextDecoder().decode(value)
@@ -48,6 +74,13 @@ export const App = () => {
     }
 
     processNotes()
+   }
+
+   catch(e){
+    console.error(e)
+    triggerNotification('error')
+   }
+   
   }
 
   const exportNotesDocX = async () => {
@@ -65,25 +98,14 @@ export const App = () => {
   }
 
   const clearGeneratedNotes = () => {
-
-    if (noteCatalog.length >= 1) {
-      const updatedCatalog = noteCatalog.filter(x => x.page !== (currentPage - 1))
-      setNoteCatalog(updatedCatalog)
-      setGeneratedNotes('')
-
-      updatedCatalog.length === 0 ? setCurrentPage(1) : setCurrentPage(noteCatalog.length)
-    }
-
-    if (noteCatalog.length === 0) {
-      setGeneratedNotes('')
-      setCurrentPage(1)
-    }
+    setGeneratedNotes('')
   }
 
   return (
     <div>
       <Nav/>
       <div className="panelContainer">
+      {contextHolder}
         <textarea
           className="note noteInput"
           onChange={(e) => { setUserNotes(e.target.value); }}

@@ -1,7 +1,8 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { App } from '../App'
 
-const mockNotes = jest.fn((arg: string) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mockNotes: any = jest.fn((arg: string) => {
 
     const textEncoder = new TextEncoder();
     const argBytes = textEncoder.encode(arg);
@@ -42,6 +43,17 @@ jest.mock('antd', () =>{
         Pagination: () => <div className="pageContainer"></div>
     }
 })
+
+const mockSuccess = jest.fn();
+const mockError = jest.fn();
+
+jest.mock('antd/es/notification/useNotification', () => {
+    return jest.fn(() => [
+        { success: () => mockSuccess(), error: () => mockError() },
+        jest.fn() // Mock contextHolder
+      ]);    
+});
+
 
 jest.mock('html-to-docx', () => (() => mockHtmlExport()))
 
@@ -123,6 +135,50 @@ describe('App', () => {
         fireEvent.click(clearBtn!)
         expect(noteResult?.innerHTML).toEqual('')
 
+    })
+
+    it('successful generation pops success notification', async () => {
+
+        renderComponent()
+
+        const noteInput = document.querySelector('.noteInput')
+        const noteResult = document.querySelector('.noteResult')
+        const submitBtn = document.querySelector('.submitBtn')
+
+
+        fireEvent.change(noteInput!, { target: { value: 'Hello, World!' } })
+        fireEvent.click(submitBtn!);
+
+        await waitFor(() => {
+            expect(mockSuccess).toHaveBeenCalled()
+        })
+
+        await waitFor(() => {
+            expect(noteResult?.innerHTML).toEqual('Hello, World!')
+        })
+
+    })
+
+    it('failed generation pops failure notification', async () => {
+        
+
+        renderComponent()
+
+        mockNotes.mockImplementationOnce(() => {
+            return Promise.reject(new Error('Mock error'));
+        });
+
+        const noteInput = document.querySelector('.noteInput')
+        const submitBtn = document.querySelector('.submitBtn')
+
+        fireEvent.change(noteInput!, { target: { value: 'Hello, World!' } })
+        fireEvent.click(submitBtn!);
+
+        
+        await waitFor(() => {
+            expect(mockError).toHaveBeenCalled()
+        })
+        
     })
 })
 
