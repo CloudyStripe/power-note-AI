@@ -1,5 +1,9 @@
 @import './themes/theme';
 
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+
 html {
     background-color: $primary_dark_mode;
 
@@ -17,8 +21,8 @@ body {
     display: flex;
     flex-direction: column;
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    padding-top: 75px;
     margin: auto;
+    padding-top: 75px;
     width: fit-content;
 
     textarea {
@@ -28,6 +32,15 @@ body {
     .ant-btn:hover {
         color: #E94444 !important;
         border-color: #E94444 !important;
+    }
+
+    .ant-collapse {
+        width: 600px;
+    }
+
+    .ant-collapse-header {
+        color: $secondary_dark_mode !important;
+        font-weight: bold
     }
 
     .button {
@@ -41,8 +54,8 @@ body {
     .buttonContainer {
         display: flex;
         justify-content: space-between;
+        width: 100%;
     }
-
 
     .exportContainer {
         width: 80%;
@@ -57,11 +70,15 @@ body {
         margin-bottom: 50px;
     }
 
+    .noteContainer {
+        width: 550px;
+    }
+
     .note {
-        width: 500px;
         height: 150px;
         padding: 10px;
         margin-bottom: 30px;
+        width: 100%;
     }
 
     .noteResult {
@@ -75,7 +92,7 @@ body {
         overflow: auto;
         word-wrap: break-word;
         margin-bottom: 30px;
-        width: 500px;
+        width: 100%;
     }
 
     .pageContainer {

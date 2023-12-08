@@ -180,6 +180,43 @@ describe('App', () => {
         })
         
     })
+
+    it('toggle collapse hides content', async () => {
+        
+
+        renderComponent()
+
+        const collapseArrow = document.querySelector('.ant-collapse-header')
+        const noteInputContainer = document.querySelector('.ant-collapse-content')
+
+        fireEvent.click(collapseArrow!);
+
+        const noteStyle = window.getComputedStyle(noteInputContainer!)
+
+        await waitFor(() => {
+            expect(noteStyle.display).toBe('none')
+        })
+       
+    })
+
+    it('toggle collapse again reveals content', async () => {
+        
+
+        renderComponent()
+
+        const collapseArrow = document.querySelector('.ant-collapse-header')
+        const noteInputContainer = document.querySelector('.ant-collapse-content')
+
+        fireEvent.click(collapseArrow!);
+        fireEvent.click(collapseArrow!);
+
+        const noteStyle = window.getComputedStyle(noteInputContainer!)
+
+        await waitFor(() => {
+            expect(noteStyle.display).not.toBe('none')
+        })
+       
+    })
 })
 
 const renderComponent = () => {
