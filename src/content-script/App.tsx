@@ -3,22 +3,61 @@ import { Button, Card } from "antd";
 import './App.scss'
 
 export const App = () => {
-
+    
     const [dialogPosition, setDialogPosition] = useState({ top: 0, left: 0 });
     const [open, setOpen] = useState<boolean>(false);
-    const [selectedText, setSelectedText] = useState<string>('')
-    const buttonRef = useRef<HTMLButtonElement | null>(null)
+    const [selectedText, setSelectedText] = useState<string>('');
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+    let styleEl: HTMLStyleElement | null = null
 
     const changeHighlightColor = () => {
-        const style = document.createElement('style');
-        style.innerHTML = `::selection { background: yellow; color: black; }`;
-        document.head.appendChild(style);
+        styleEl = document.createElement('style');
+        styleEl.innerHTML = `::selection { background: yellow; color: black; }`;
+        document.head.appendChild(styleEl);
     };
+
+    const removeHighlightColor = () => {
+        if (styleEl) {
+            document.head.removeChild(styleEl);
+            styleEl = null;
+        }
+    };
+
+    const addListeners = () => {
+        changeHighlightColor();
+        setOpen(true)
+        document.addEventListener('mousedown', handleMouseDown);
+        document.addEventListener("mouseup", handleMouseUp);
+    }
+
+    const removeListeners = () => {
+        setOpen(false)
+        removeHighlightColor()
+        document.removeEventListener('mousedown', handleMouseDown)
+        document.removeEventListener('mouseup', handleMouseUp)
+    }
+
+    chrome.runtime.onConnect.addListener((port) => {
+
+        if(styleEl === null){
+            addListeners()
+        }
+
+        port.onDisconnect.addListener(() => {
+            removeListeners()
+        })
+    })
+
+    chrome.runtime.onMessage.addListener((message) => {
+        if(message.open === true){
+            addListeners()
+        }
+    })
 
     const handleSubmit = async () => {
         try {
-            const response = await chrome.runtime.sendMessage(selectedText)
-            console.log(response)
+            await chrome.runtime.sendMessage(selectedText)
         }
 
         catch {
@@ -88,33 +127,21 @@ export const App = () => {
 
     };
 
-
    useEffect(() => {
 
-    changeHighlightColor();
+    const currentButton = buttonRef.current;
 
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener("mouseup", handleMouseUp);
-
-    return () => {
-        document.removeEventListener('mousedown', handleMouseDown)
-        document.removeEventListener('mouseup', handleMouseDown)
-    };
-    
-   }, [])
-
-   useEffect(() => {
-    if(open && buttonRef.current){
-        buttonRef.current.addEventListener('click', handleSubmit)
+    if(open && currentButton){
+        currentButton.addEventListener('click', handleSubmit)
     }
 
-    if(!open && buttonRef.current){
-        buttonRef.current.removeEventListener('click', handleSubmit)
+    if(!open && currentButton){
+        currentButton.removeEventListener('click', handleSubmit)
     }
 
     return () => {
-        if (buttonRef.current) {
-            buttonRef.current.removeEventListener('click', handleSubmit);
+        if (currentButton) {
+            currentButton.removeEventListener('click', handleSubmit);
         }
     };
    }, [open])
