@@ -38,7 +38,6 @@ export const App = () => {
     }
 
     chrome.runtime.onConnect.addListener((port) => {
-
         if(styleEl === null){
             addListeners()
         }
