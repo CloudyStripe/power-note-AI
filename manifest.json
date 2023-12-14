@@ -12,8 +12,12 @@
     "permissions": [
         "storage",
         "scripting",
-        "sidePanel"
+        "sidePanel",
+        "tabs"
     ],
+    "background": {
+        "service_worker": "./src/service-worker/service-worker.ts"
+    },
     "content_scripts": [
         {
             "matches": [

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { noteService } from './note-service/note-service'
 import HTMLtoDOCX from 'html-to-docx';
 import DOMPurify from 'dompurify';
@@ -15,6 +15,19 @@ export const App = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const [api, contextHolder] = useNotification()
+
+  useEffect(() => {
+    //first render
+    if (chrome.runtime) {
+      const registerActivity = async () => {
+        const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+        chrome.tabs.connect(tab.id!);
+      }
+      chrome.storage.local.set({ panelOpen: true })
+      registerActivity()
+    }
+
+  }, [])
 
   const triggerNotification = (status: string) => {
     if (status === 'success') {
@@ -40,6 +53,7 @@ export const App = () => {
   }
 
   if (chrome.runtime) {
+
     chrome.runtime.onMessage.addListener((message: string, _, sendResponse) => {
       if (message) {
         if (userNotes) {
@@ -52,6 +66,7 @@ export const App = () => {
         sendResponse({ status: 'success' })
       }
     })
+
   }
 
   const submitNotes = async () => {
