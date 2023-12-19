@@ -186,7 +186,7 @@ export const App = () => {
   ]
 
   return (
-    <div>
+    <div className="appContainer">
       <Nav />
       <div className="panelContainer">
         {contextHolder}

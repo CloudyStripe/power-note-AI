@@ -6,23 +6,31 @@
 
 html {
     background-color: $primary_dark_mode;
-
+    height: 100%;
     .ant-notification-notice-wrapper {
         background-color: $secondary_dark_mode !important;
+    }
+
+    .appContainer {
+        display: flex;
+        flex-direction: column;
+        height: 100%
+    }
+
+    .rootDiv {
+        height: 100%
     }
 }
 
 body {
+    height: 100%;
     margin: 0px;
 }
 
 .panelContainer {
-
-    display: flex;
-    flex-direction: column;
+    
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     margin: auto;
-    padding-top: 75px;
     width: fit-content;
 
     textarea {
