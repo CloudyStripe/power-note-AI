@@ -1,5 +1,77 @@
 @import '../themes/theme';
 
+.ant-modal-root {
+    .settingsModal {
+        .ant-modal-content {
+
+
+            background-color: $primary_dark_mode;
+            border-color: $secondary_dark_mode !important;
+
+            .ant-modal-content,
+            .ant-modal-title,
+            .ant-modal-close-x,
+            .ant-menu {
+                background-color: $primary_dark_mode;
+                border-color: $secondary_dark_mode;
+                color: $secondary_dark_mode !important;
+            }
+
+            .ant-menu-item {
+                width: fit-content;
+                padding-right: 48px;
+            }
+
+            .ant-menu-item:hover {
+                background-color: $primary_dark_mode;
+                color: $tertiary_dark_mode
+            }
+
+            .ant-menu-item:active {
+                background-color: $primary_dark_mode;
+            }
+
+            .ant-menu-item-selected {
+                background-color: $primary_dark_mode;
+                color: $tertiary_dark_mode;
+            }
+
+            .ant-menu-submenu-selected {
+                background-color: $primary_dark_mode;
+                color: $secondary_dark_mode;
+
+                div span, div i {
+                    color: $secondary_dark_mode;
+                }
+            }
+
+            .ant-menu-submenu-title:hover {
+                background-color: $primary_dark_mode;
+                span, i {
+                    color: $tertiary_dark_mode;
+                }
+            }
+
+            .ant-menu-submenu-title:active {
+                background-color: $primary_dark_mode;
+            }
+
+            .ant-menu-item-divider {
+                border-color: $secondary_dark_mode
+            }
+
+            .ant-modal-close:hover {
+
+                    background-color: $primary_dark_mode;
+                    svg {
+                        color: $tertiary_dark_mode
+                    }
+                
+            }
+
+        }
+    }
+}
 
 .navContainer {
 
