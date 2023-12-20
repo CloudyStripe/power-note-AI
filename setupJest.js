@@ -22,6 +22,22 @@ if (!Range.prototype.getBoundingClientRect) {
         onMessage: {
           addListener: jest.fn()
         },
+        onConnect: {
+          addListener: jest.fn()
+        }
+      },
+      storage: {
+        onChanged: {
+          addListener: jest.fn()
+        },
+        local: {
+          get: jest.fn(() => ({ panelOpen: true})),
+          set: jest.fn()
+        }
+      },
+      tabs: {
+        query: jest.fn(() => [{ id: 1 }]),
+        connect: jest.fn()
       }
     };
   }
