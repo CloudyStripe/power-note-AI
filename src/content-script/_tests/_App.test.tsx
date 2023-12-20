@@ -1,11 +1,13 @@
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import { App } from '../App'
 
 describe('Content Script', () => {
 
-    it('submit button renders', () => {
+    it('submit button renders', async () => {
 
-        renderComponent()
+        await act(async () => {
+            renderComponent();
+        });
 
         const text = 'Some text to select';
         const p = document.createElement('p');
@@ -28,7 +30,9 @@ describe('Content Script', () => {
 
     it('submit button unmounts on subsequent click', async () => {
 
-        renderComponent()
+        await act(async () => {
+            renderComponent();
+        });
 
         const text = 'Some text to select';
         const p = document.createElement('p');
