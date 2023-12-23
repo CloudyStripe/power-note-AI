@@ -6,6 +6,14 @@ import { Menu, MenuProps, Modal } from 'antd';
 export const Nav: React.FC = () => {
 
     const [settingsOpen, setSettingsOpen] = useState<boolean>(false)
+    const [defaultKey, setDefaultKey] = useState<'On' | 'Off' | undefined>(undefined)
+
+    const statusCheck = async (open: boolean) => {
+        if(open === true){
+            const panelStatus = await chrome.storage.local.get(['panelOpen'])
+            setDefaultKey(panelStatus.panelOpen)
+        }
+    }
 
     const items: MenuProps['items'] = [
         {
@@ -15,11 +23,13 @@ export const Nav: React.FC = () => {
             children: [
                 {
                     label: 'On',
-                    key: 'setting:1',
+                    key: 'On',
+                    onClick: () => chrome.storage.local.set({ panelOpen: true })
                 },
                 {
                     label: 'Off',
-                    key: 'setting:2',
+                    key: 'Off',
+                    onClick: () => chrome.storage.local.set({ panelOpen: false })
                 },
             ],
         },
@@ -43,6 +53,7 @@ export const Nav: React.FC = () => {
                 className="settingsIcon"
             />
             <Modal
+                afterOpenChange={(open: boolean) => statusCheck(open)}
                 className="settingsModal"
                 footer={null}
                 onCancel={() => setSettingsOpen(false)}
@@ -50,6 +61,7 @@ export const Nav: React.FC = () => {
                 title="Settings">
                 <Menu 
                     mode='inline' 
+                    defaultSelectedKeys={defaultKey ? [defaultKey] : undefined}
                     items={items}>
                 </Menu>
             </Modal>

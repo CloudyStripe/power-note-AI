@@ -130,11 +130,19 @@ export const App = () => {
     };
 
     useEffect(() => {
+
         const checkPanel = async () => {
+
             const panelStatus = await chrome.storage.local.get(['panelOpen'])
+
             if (styleEl === null && panelStatus.panelOpen === true) {
                 addListeners()
             }
+
+            if (panelStatus.panelOpen === false) {
+                removeListeners()
+            }
+            
         }
 
         checkPanel()

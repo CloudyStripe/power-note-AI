@@ -4,7 +4,6 @@
     .settingsModal {
         .ant-modal-content {
 
-
             background-color: $primary_dark_mode;
             border-color: $secondary_dark_mode !important;
 
@@ -67,6 +66,10 @@
                         color: $tertiary_dark_mode
                     }
                 
+            }
+
+            .ant-modal-header {
+                margin-bottom: 25px;
             }
 
         }
