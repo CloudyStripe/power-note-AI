@@ -1,0 +1,13 @@
+.greeting {
+    display: flex;
+}
+
+.instructions {
+    font-size: 13px;
+}
+
+.logo {
+    height: 35px;
+    width: 35px;
+    margin: auto 0px auto 0px;
+}
