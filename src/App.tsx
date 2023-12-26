@@ -129,6 +129,7 @@ export const App = () => {
             className="button clearBtn"
             icon={<ClearOutlined />}
             onClick={clearRawNotes}
+            size='small'
           >
             Clear
           </Button>
@@ -137,6 +138,7 @@ export const App = () => {
             icon={<SendOutlined />}
             loading={loading}
             onClick={submitNotes}
+            size='small'
           >
             Submit
           </Button>
@@ -157,6 +159,7 @@ export const App = () => {
             className="button clearGeneratedBtn"
             icon={<DeleteOutlined />}
             onClick={clearGeneratedNotes}
+            size='small'
           >
             Delete
           </Button>
@@ -164,6 +167,7 @@ export const App = () => {
             className="button exportBtn"
             icon={<DownloadOutlined />}
             onClick={exportNotesDocX}
+            size='small'
           >
             Export
           </Button>

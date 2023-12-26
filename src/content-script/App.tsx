@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Button, Card } from "antd";
 import './App.scss'
+import { SendOutlined } from "@ant-design/icons";
 
 export const App = () => {
 
@@ -172,7 +173,13 @@ export const App = () => {
 
     return open && (
         <Card className="submitButtonContainer" style={{ top: `${dialogPosition.top}px`, left: `${dialogPosition.left}px` }}>
-            <Button ref={buttonRef} className="submitButton">Submit</Button>
+            <Button 
+                ref={buttonRef} 
+                className="submitButton"
+                icon={<SendOutlined />}
+                >
+                Submit
+            </Button>
         </Card>
     )
 }
