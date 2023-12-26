@@ -55,8 +55,8 @@ body {
         background-color: $secondary_dark_mode;
         color: $primary_dark_mode;
         font-weight: bold;
-        margin-bottom: 30px;
-        width: 120px;
+        margin-bottom: 15px;
+        width: 100px;
     }
 
     .buttonContainer {
@@ -78,14 +78,10 @@ body {
         margin-bottom: 50px;
     }
 
-    .noteContainer {
-        width: 550px;
-    }
-
     .note {
         height: 150px;
         padding: 10px;
-        margin-bottom: 30px;
+        margin-bottom: 15px;
         width: 100%;
     }
 
@@ -107,6 +103,32 @@ body {
         margin: auto;
         padding-top: 20px;
         width: fit-content;
+    }
+
+    @media(max-width: 650px){
+        .ant-collapse {
+            width: 400px;
+        }
+
+        .ant-collapse-header {
+            font-size: 13px;
+
+            .ant-collapse-expand-icon {
+                font-size: 13px;
+            }
+        }
+    }
+
+    @media(max-width: 400px){
+        .ant-collapse {
+            width: 300px;
+        }
+    }
+
+    @media(max-height: 750px){
+        .note {
+            height: 125px;
+        }
     }
 
 }
