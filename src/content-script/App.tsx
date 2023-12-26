@@ -38,6 +38,35 @@ export const App = () => {
         document.removeEventListener('mouseup', handleMouseUp)
     }
 
+    const setPositionAndOpenDialog = (selection: Selection) => {
+        const range = selection.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        let top = rect.bottom + window.scrollY;
+        let left = rect.left + window.scrollX;
+    
+        const dialogWidth = 300;
+        const dialogHeight = 200;
+    
+        if (left + dialogWidth > window.innerWidth) {
+            left = window.innerWidth - dialogWidth;
+        }
+    
+        if (top + dialogHeight > window.innerHeight + window.scrollY) {
+            top = window.innerHeight + window.scrollY - dialogHeight;
+        }
+    
+        setDialogPosition({ top: top, left: left });
+        setOpen(true);
+    };
+    
+    const checkForSelectedTextAndOpen = () => {
+        const selection = window.getSelection();
+        if (selection && !selection.isCollapsed) {
+            setSelectedText(selection.toString());
+            setPositionAndOpenDialog(selection);
+        }
+    };
+
     chrome.runtime.onConnect.addListener((port) => {
         if(styleEl === null){
             addListeners()
@@ -55,6 +84,7 @@ export const App = () => {
         }
         if(changes.panelOpen.newValue == true){
             addListeners()
+            checkForSelectedTextAndOpen();
         }
     })
 
@@ -69,49 +99,13 @@ export const App = () => {
     }
 
     const handleMouseUp = (event: MouseEvent) => {
-
-        const selection = window.getSelection();
-
-        if (selection?.isCollapsed) {
-            //This handles the edge case where the user performs a right-click outside the currently highlighted text, resulting in the collapse of the active text selection.
-            setOpen(false)
-            return
-        }
-
         if (event.button === 2) {
-            return
+            return;
         }
-
-        if (selection && !selection.isCollapsed) {
-
-            setSelectedText(selection.toString())
-
-            const range = selection.getRangeAt(0);
-            const rect = range.getBoundingClientRect();
-            let top = rect.bottom + window.scrollY;
-            let left = rect.left + window.scrollX;
-
-            const dialogWidth = 300;
-            const dialogHeight = 200;
-
-            if (left + dialogWidth > window.innerWidth) {
-                left = window.innerWidth - dialogWidth;
-            }
-
-            if (top + dialogHeight > window.innerHeight + window.scrollY) {
-                top = window.innerHeight + window.scrollY - dialogHeight;
-            }
-
-            setDialogPosition({ top: top, left: left });
-
-            setOpen(true);
-
-        } else {
-            setOpen(false);
-
-        }
+    
+        checkForSelectedTextAndOpen();
     };
-
+    
     const handleMouseDown = (event: MouseEvent) => {
 
         const selection = window.getSelection();
