@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build-extension": "npm run build && copy src\\manifest.json dist\\",
+    "build-extension": "npm run build && copy src\\pop-up dist\\",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
