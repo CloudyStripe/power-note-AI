@@ -12,9 +12,12 @@ import useNotification from 'antd/es/notification/useNotification';
 export const App = () => {
   const [userNotes, setUserNotes] = useState<string | ''>('')
   const [generatedNotes, setGeneratedNotes] = useState<string>('')
+  const [charCount, setCharCount] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(false)
 
   const [api, contextHolder] = useNotification()
+
+  const charLimit = 12000;
 
   useEffect(() => {
     //first render
@@ -28,6 +31,10 @@ export const App = () => {
     }
 
   }, [])
+
+  useEffect(() => {
+    setCharCount(userNotes.length)
+  }, [userNotes])
 
   const triggerNotification = (status: string) => {
     if (status === 'success') {
@@ -119,11 +126,14 @@ export const App = () => {
   const input = () => {
     return (
       <div className='noteContainer'>
-        <textarea
-          className="note noteInput"
-          onChange={(e) => { setUserNotes(e.target.value); }}
-          value={userNotes}
-        />
+        <div className="inputContainer">
+          <textarea
+            className="note noteInput"
+            onChange={(e) => { setUserNotes(e.target.value); }}
+            value={userNotes}
+          />
+          <p className={`charCount ${charCount > charLimit ? 'error' : ''}`}>{`${charCount}/${charLimit}`}</p>
+        </div>
         <div className="buttonContainer">
           <Button
             className="button clearBtn"
@@ -135,6 +145,7 @@ export const App = () => {
           </Button>
           <Button
             className="button submitBtn"
+            disabled={charCount > charLimit}
             icon={<SendOutlined />}
             loading={loading}
             onClick={submitNotes}

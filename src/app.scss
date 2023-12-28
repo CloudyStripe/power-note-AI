@@ -38,8 +38,8 @@ body {
     }
 
     .ant-btn:hover {
-        color: #E94444 !important;
-        border-color: #E94444 !important;
+        color: $tertiary_dark_mode !important;
+        border-color: $tertiary_dark_mode !important;
     }
 
     .ant-collapse {
@@ -65,10 +65,22 @@ body {
         width: 100%;
     }
 
+    .charCount {
+        color: $secondary_dark_mode;
+        font-size: 12px;
+        position: absolute;
+        right: 10px;
+        top: -35px;
+    }
+
     .exportContainer {
         width: 80%;
         padding-top: 25px;
         margin: auto;
+    }
+
+    .error {
+        color: $tertiary_dark_mode
     }
 
     .header {
@@ -76,6 +88,10 @@ body {
         height: 75px;
         margin: auto;
         margin-bottom: 50px;
+    }
+
+    .inputContainer {
+        position: relative;
     }
 
     .note {

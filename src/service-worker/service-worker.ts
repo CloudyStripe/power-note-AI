@@ -8,7 +8,7 @@ chrome.runtime.onStartup.addListener(() => {
 chrome.runtime.onInstalled.addListener((details) => {
     if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
       chrome.windows.create({
-        url: './src/pop-up/popup.html',
+        url: 'popup.html',
         type: 'popup',
         width: 400,
         height: 200

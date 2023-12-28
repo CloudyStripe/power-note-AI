@@ -4,8 +4,7 @@
     "name": "Power Note AI",
     "description": "This is a Chrome extension built with React and TypeScript",
     "action": {
-        "default_title": "Power Note AI",
-        "default_popup": "./src/pop-up/popup.html"
+        "default_title": "Power Note AI"
     },
     "side_panel": {
             "default_path": "index.html"
