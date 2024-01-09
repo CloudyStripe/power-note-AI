@@ -19,7 +19,7 @@ export const useAuthStatus = () => {
         navigate('/signOn')
       }
     });
-    // Clean up subscription on unmount
+
     return () => unsubscribe();
 
   }, []);
