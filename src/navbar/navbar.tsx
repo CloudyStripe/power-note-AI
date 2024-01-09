@@ -1,11 +1,15 @@
 import { HighlightOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
-import './navbar.scss'
 import { useState } from 'react';
 import { Menu, MenuProps, Modal } from 'antd';
+import { getAuth } from 'firebase/auth';
+import './navbar.scss'
 
 export const Nav: React.FC = () => {
 
     const [settingsOpen, setSettingsOpen] = useState<boolean>(false)
+
+    const auth = getAuth()
+
     const items: MenuProps['items'] = [
         {
             label: 'Highlight & Export',
@@ -28,7 +32,8 @@ export const Nav: React.FC = () => {
         {
             label: 'Sign Out',
             key: 'sign-out',
-            icon: <LogoutOutlined />
+            icon: <LogoutOutlined />,
+            onClick: () => auth.signOut()
 
         },
     ];

@@ -5,9 +5,10 @@ import DOMPurify from 'dompurify';
 import { saveAs } from 'file-saver'
 import { Button, Collapse, CollapseProps } from 'antd';
 import { ClearOutlined, SendOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons'
-import './App.scss'
 import { Nav } from './navbar/navbar';
 import useNotification from 'antd/es/notification/useNotification';
+import { useAuthStatus } from './utils/hooks/useAuthStatus';
+import './App.scss'
 
 export const App = () => {
   const [userNotes, setUserNotes] = useState<string | ''>('')
@@ -19,9 +20,11 @@ export const App = () => {
 
   const charLimit = 12000;
 
+  useAuthStatus()
+
   useEffect(() => {
-    //first render
     if (chrome.runtime) {
+      
       const registerActivity = async () => {
         const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
         chrome.tabs.connect(tab.id!);
