@@ -1,7 +1,7 @@
 
 import ReactDOM from 'react-dom/client'
 import { App } from './App.tsx'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
 import { SignOn } from './firebase/auth/SignOn.tsx';
 import { AccountCreation } from './firebase/auth/AccountCreationForm.tsx';
@@ -18,7 +18,7 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
       path: "/",
       element: <App/>,

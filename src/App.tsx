@@ -23,8 +23,8 @@ export const App = () => {
   useAuthStatus()
 
   useEffect(() => {
-    //first render
     if (chrome.runtime) {
+      
       const registerActivity = async () => {
         const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
         chrome.tabs.connect(tab.id!);
