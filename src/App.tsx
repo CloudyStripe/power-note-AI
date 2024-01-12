@@ -7,7 +7,6 @@ import { Button, Collapse, CollapseProps } from 'antd';
 import { ClearOutlined, SendOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons'
 import { Nav } from './navbar/navbar';
 import useNotification from 'antd/es/notification/useNotification';
-import { useAuthStatus } from './utils/hooks/useAuthStatus';
 import './App.scss'
 
 export const App = () => {
@@ -19,8 +18,6 @@ export const App = () => {
   const [api, contextHolder] = useNotification()
 
   const charLimit = 12000;
-
-  useAuthStatus()
 
   useEffect(() => {
     if (chrome.runtime) {

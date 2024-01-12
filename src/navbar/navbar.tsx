@@ -1,14 +1,11 @@
-import { HighlightOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
+import { HighlightOutlined, SettingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Menu, MenuProps, Modal } from 'antd';
-import { getAuth } from 'firebase/auth';
 import './navbar.scss'
 
 export const Nav: React.FC = () => {
 
     const [settingsOpen, setSettingsOpen] = useState<boolean>(false)
-
-    const auth = getAuth()
 
     const items: MenuProps['items'] = [
         {
@@ -27,15 +24,7 @@ export const Nav: React.FC = () => {
                     onClick: () => chrome.storage.local.set({ panelOpen: false })
                 },
             ],
-        },
-        { type: 'divider' },
-        {
-            label: 'Sign Out',
-            key: 'sign-out',
-            icon: <LogoutOutlined />,
-            onClick: () => auth.signOut()
-
-        },
+        }
     ];
 
     return (
