@@ -1,41 +1,38 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
+import { EventEmitter } from 'events';
 import { App } from '../App'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mockNotes: any = jest.fn((arg: string) => {
+interface MockStream extends EventEmitter {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [Symbol.asyncIterator](): AsyncIterableIterator<any>;
+}
 
-    const textEncoder = new TextEncoder();
-    const argBytes = textEncoder.encode(arg);
-    let isFirstCall = true;
+const mockNotes = jest.fn((args: string) => {
+    const mockStream = new EventEmitter() as MockStream;
 
-    return {
-        body: {
-            getReader: () => ({
-                read: () => {
-                    const done = !isFirstCall;
-                    isFirstCall = false;
+    // Implement the async iterator protocol
+    mockStream[Symbol.asyncIterator] = async function* () {
 
-                    return {
-                        done: done,
-                        value: argBytes
-                    };
-                },
-            }),
-        },
+        yield { choices: [{ delta: { content: `${args}` } }] };
+        
+        mockStream.emit('end');
+        
     };
-});
+
+    return mockStream;
+})
 
 const mockHtmlExport = jest.fn()
 
 jest.mock('../note-service/note-service', () => ({
-    noteService: (arg: string) => mockNotes(arg)
+    generateNotes: (arg: string) => mockNotes(arg)
 }))
 
 jest.mock('file-saver', () => ({
     saveAs: jest.fn()
 }))
 
-jest.mock('antd', () =>{
+jest.mock('antd', () => {
     const antd = jest.requireActual('antd')
 
     return {
@@ -51,7 +48,7 @@ jest.mock('antd/es/notification/useNotification', () => {
     return jest.fn(() => [
         { success: () => mockSuccess(), error: () => mockError() },
         jest.fn() // Mock contextHolder
-      ]);    
+    ]);
 });
 
 
@@ -91,11 +88,11 @@ describe('App', () => {
         const exportBtn = document.querySelector('.exportBtn')
 
 
-        fireEvent.change(noteInput!, { target: { value: 'Hello, World!' } })
+        fireEvent.change(noteInput!, { target: { value: '<p>Hello, World!</p>' } })
         fireEvent.click(submitBtn!);
 
         await waitFor(() => {
-            expect(noteResult?.innerHTML).toEqual('Hello, World!')
+            expect(noteResult?.innerHTML).toEqual('<p>Hello, World!</p>')
         })
 
         fireEvent.click(exportBtn!);
@@ -110,7 +107,7 @@ describe('App', () => {
         const textInput = document.querySelector('.noteInput')
         const clearBtn = document.querySelector('.clearBtn')
 
-        fireEvent.change(textInput!, { target: { value: 'Hello, World!' } })
+        fireEvent.change(textInput!, { target: { value: '<p>Hello, World!</p>' } })
         fireEvent.click(clearBtn!)
 
         expect(textInput!.innerHTML).toBe('')
@@ -125,11 +122,11 @@ describe('App', () => {
         const clearBtn = document.querySelector('.clearGeneratedBtn')
 
 
-        fireEvent.change(noteInput!, { target: { value: 'Hello, World!' } })
+        fireEvent.change(noteInput!, { target: { value: '<p>Hello, World!</p>' } })
         fireEvent.click(submitBtn!);
 
         await waitFor(() => {
-            expect(noteResult?.innerHTML).toEqual('Hello, World!')
+            expect(noteResult?.innerHTML).toEqual('<p>Hello, World!</p>')
         })
 
         fireEvent.click(clearBtn!)
@@ -146,7 +143,7 @@ describe('App', () => {
         const submitBtn = document.querySelector('.submitBtn')
 
 
-        fireEvent.change(noteInput!, { target: { value: 'Hello, World!' } })
+        fireEvent.change(noteInput!, { target: { value: '<p>Hello, World!</p>' } })
         fireEvent.click(submitBtn!);
 
         await waitFor(() => {
@@ -154,35 +151,34 @@ describe('App', () => {
         })
 
         await waitFor(() => {
-            expect(noteResult?.innerHTML).toEqual('Hello, World!')
+            expect(noteResult?.innerHTML).toEqual('<p>Hello, World!</p>')
         })
 
     })
 
     it('failed generation pops failure notification', async () => {
-        
 
         renderComponent()
 
         mockNotes.mockImplementationOnce(() => {
-            return Promise.reject(new Error('Mock error'));
+            throw new Error('Error')
         });
 
         const noteInput = document.querySelector('.noteInput')
         const submitBtn = document.querySelector('.submitBtn')
 
-        fireEvent.change(noteInput!, { target: { value: 'Hello, World!' } })
+        fireEvent.change(noteInput!, { target: { value: '<p>Hello, World!</p>' } })
         fireEvent.click(submitBtn!);
 
-        
+
         await waitFor(() => {
             expect(mockError).toHaveBeenCalled()
         })
-        
+
     })
 
     it('toggle collapse hides content', async () => {
-        
+
 
         renderComponent()
 
@@ -196,11 +192,11 @@ describe('App', () => {
         await waitFor(() => {
             expect(noteStyle.display).toBe('none')
         })
-       
+
     })
 
     it('toggle collapse again reveals content', async () => {
-        
+
 
         renderComponent()
 
@@ -215,7 +211,7 @@ describe('App', () => {
         await waitFor(() => {
             expect(noteStyle.display).not.toBe('none')
         })
-       
+
     })
 })
 

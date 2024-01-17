@@ -107,14 +107,11 @@ export const App = () => {
     };
     
     const handleMouseDown = (event: MouseEvent) => {
-
         const selection = window.getSelection();
         const clickedElement = event.target as HTMLElement
-
         if (event.button === 2) {
             return
         }
-
         if (selection && !selection.isCollapsed) {
             if (buttonRef && !buttonRef.current?.contains(clickedElement)) {
                 selection.removeAllRanges();

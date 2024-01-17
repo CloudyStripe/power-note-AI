@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { noteService } from './note-service/note-service'
+import { generateNotes } from './note-service/note-service'
 import HTMLtoDOCX from 'html-to-docx';
 import DOMPurify from 'dompurify';
 import { saveAs } from 'file-saver'
@@ -7,6 +7,7 @@ import { Button, Collapse, CollapseProps } from 'antd';
 import { ClearOutlined, SendOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons'
 import { Nav } from './navbar/navbar';
 import useNotification from 'antd/es/notification/useNotification';
+import { WritableStream } from 'htmlparser2/lib/WritableStream';
 import './App.scss'
 
 export const App = () => {
@@ -18,6 +19,10 @@ export const App = () => {
   const [api, contextHolder] = useNotification()
 
   const charLimit = 12000;
+
+  const noteSetter = (newValue: string) => {
+    setGeneratedNotes(prevValue => prevValue + newValue)
+  }
 
   useEffect(() => {
     if (chrome.runtime) {
@@ -81,21 +86,28 @@ export const App = () => {
     setLoading(true)
 
     try {
-      const connection = await noteService(userNotes!)
-      const reader = connection?.body?.getReader()
+      const response = await generateNotes(userNotes!)
 
-      const processNotes = async () => {
-        const { done, value } = await reader!.read()
-        if (done) {
-          triggerNotification('success')
-          return
+      let buffer = ''
+
+      const parserStream = new WritableStream({
+
+        onclosetag() {
+          noteSetter(buffer)
+          buffer = '';
+        },
+  
+      });
+  
+      for await (const note of response) {
+        const chunk = note.choices[0].delta.content;
+        if (chunk) {
+          buffer += chunk
+          parserStream.write(chunk);
         }
-        const textChunk = new TextDecoder().decode(value)
-        setGeneratedNotes(prevValue => prevValue + textChunk)
-        processNotes()
       }
 
-      processNotes()
+      triggerNotification('success')
     }
 
     catch (e) {
