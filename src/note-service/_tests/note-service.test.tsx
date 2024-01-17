@@ -1,7 +1,7 @@
-import { noteService } from "../note-service";
+import { generateNotes } from '../note-service';
 import fetch from 'jest-fetch-mock';
 
-describe('FEC service', () => {
+describe('Open AI service', () => {
 
     beforeEach(() => jest.clearAllMocks())
 
@@ -9,18 +9,11 @@ describe('FEC service', () => {
         const mockNotes = 'Test notes';
         fetch.mockResponse(JSON.stringify({})); 
     
-        await noteService(mockNotes);
+        await generateNotes(mockNotes);
+
+        const url = fetch.mock.calls[0][0];
     
-        expect(fetch).toHaveBeenCalledWith(
-          'http://localhost:3001/organize',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ notes: mockNotes }),
-          }
-        );
+        expect(url).toEqual('https://api.openai.com/v1/chat/completions');
       });
   
 })

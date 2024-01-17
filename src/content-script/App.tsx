@@ -26,6 +26,7 @@ export const App = () => {
     };
 
     const addListeners = () => {
+        debugger;
         changeHighlightColor();
         document.addEventListener('mousedown', handleMouseDown);
         document.addEventListener("mouseup", handleMouseUp);
@@ -99,6 +100,7 @@ export const App = () => {
     }
 
     const handleMouseUp = (event: MouseEvent) => {
+        debugger;
         if (event.button === 2) {
             return;
         }
@@ -107,16 +109,17 @@ export const App = () => {
     };
     
     const handleMouseDown = (event: MouseEvent) => {
-
+        debugger;
         const selection = window.getSelection();
         const clickedElement = event.target as HTMLElement
-
+        debugger;
         if (event.button === 2) {
             return
         }
-
+        debugger;
         if (selection && !selection.isCollapsed) {
             if (buttonRef && !buttonRef.current?.contains(clickedElement)) {
+                debugger;
                 selection.removeAllRanges();
                 setOpen(false);
             }

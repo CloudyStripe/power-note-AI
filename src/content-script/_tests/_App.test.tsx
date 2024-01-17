@@ -1,8 +1,9 @@
-import { act, fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { App } from '../App'
 
 describe('Content Script', () => {
 
+    beforeEach(() => jest.clearAllMocks())
     it('submit button renders', async () => {
 
         await act(async () => {
@@ -53,13 +54,11 @@ describe('Content Script', () => {
         const submitButton = document.querySelector('.submitButton')
         expect(submitButton).toBeTruthy()
 
-        selection?.collapseToStart()
-
-        fireEvent.mouseUp(p)
+        fireEvent.mouseDown(p)
 
         const updatedSubmitButton = document.querySelector('.submitButton')
 
-        expect(updatedSubmitButton).toBeFalsy()
+        await waitFor(() => expect(updatedSubmitButton).toBeFalsy())
 
     })
 
