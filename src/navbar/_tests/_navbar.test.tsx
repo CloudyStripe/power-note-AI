@@ -45,7 +45,10 @@ describe('navbar', () => {
 })
 
 const renderComponent = () => {
+
+    const mockSetter = () => console.log('test')
+
     return render(
-        <Nav />
+        <Nav keySetter={mockSetter}/>
     )
 }
