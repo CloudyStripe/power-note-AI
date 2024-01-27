@@ -60,7 +60,6 @@ export const App = () => {
     };
     
     const checkForSelectedTextAndOpen = () => {
-        debugger;
         const selection = window.getSelection();
         if (selection && !selection.isCollapsed) {
             setSelectedText(selection.toString());
@@ -108,7 +107,6 @@ export const App = () => {
     };
     
     const handleMouseDown = (event: MouseEvent) => {
-        debugger;
         const selection = window.getSelection();
         const clickedElement = event.target as HTMLElement
         if (event.button === 2) {

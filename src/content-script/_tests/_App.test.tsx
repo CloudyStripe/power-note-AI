@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { App } from '../App'
 
 describe('Content Script', () => {
