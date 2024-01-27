@@ -4,6 +4,7 @@ import { App } from '../App'
 describe('Content Script', () => {
 
     beforeEach(() => jest.clearAllMocks())
+
     it('submit button renders', async () => {
 
         await act(async () => {
@@ -22,10 +23,10 @@ describe('Content Script', () => {
         const selection = window.getSelection()
         selection?.addRange(range)
 
-        fireEvent.mouseUp(p)
+        await act(() => fireEvent.mouseUp(p))
 
         const submitButton = document.querySelector('.submitButton')
-        expect(submitButton).toBeTruthy()
+        await waitFor(() => expect(submitButton).toBeTruthy())
 
     })
 
@@ -41,7 +42,6 @@ describe('Content Script', () => {
 
         p.textContent = text;
         document.body.appendChild(p);
-        document.body.appendChild(span)
 
         const range = document.createRange()
         range.selectNodeContents(p)
@@ -54,7 +54,7 @@ describe('Content Script', () => {
         const submitButton = document.querySelector('.submitButton')
         expect(submitButton).toBeTruthy()
 
-        fireEvent.mouseDown(p)
+        await act(() => fireEvent.mouseDown(p))
 
         const updatedSubmitButton = document.querySelector('.submitButton')
 

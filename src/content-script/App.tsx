@@ -138,6 +138,10 @@ export const App = () => {
         }
 
         checkPanel()
+
+        return () => {
+            removeListeners()
+        }
     }, [])
 
 

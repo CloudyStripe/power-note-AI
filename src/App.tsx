@@ -11,6 +11,8 @@ import { WritableStream } from 'htmlparser2/lib/WritableStream';
 import './App.scss'
 
 export const App = () => {
+
+  const [openAiKey, setOpenAiKey] = useState<string | ''>('')
   const [userNotes, setUserNotes] = useState<string | ''>('')
   const [generatedNotes, setGeneratedNotes] = useState<string>('')
   const [charCount, setCharCount] = useState<number>(0)
@@ -24,9 +26,13 @@ export const App = () => {
     setGeneratedNotes(prevValue => prevValue + newValue)
   }
 
+  const keySetter = (openAiKey: string) => {
+    setOpenAiKey(openAiKey)
+  }
+
   useEffect(() => {
     if (chrome.runtime) {
-      
+
       const registerActivity = async () => {
         const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
         chrome.tabs.connect(tab.id!);
@@ -41,12 +47,12 @@ export const App = () => {
     setCharCount(userNotes.length)
   }, [userNotes])
 
-  const triggerNotification = (status: string) => {
+  const triggerNotification = (status: string, summary?: string) => {
     if (status === 'success') {
       api.success({
         className: "notification",
         message: "Success!",
-        description: "Your organized notes are ready.",
+        description:"Your organized notes are ready.",
         placement: "bottomRight",
         duration: 5
       })
@@ -56,7 +62,7 @@ export const App = () => {
       api.error({
         className: "notification",
         message: "Oops!",
-        description: "There was an issue submitting your notes. Please try again.",
+        description: summary || "There was an issue submitting your notes. Please try again.",
         placement: "bottomRight",
         duration: 5
       })
@@ -85,34 +91,49 @@ export const App = () => {
 
     setLoading(true)
 
-    try {
-      const response = await generateNotes(userNotes!)
-
-      let buffer = ''
-
-      const parserStream = new WritableStream({
-
-        onclosetag() {
-          noteSetter(buffer)
-          buffer = '';
-        },
-  
-      });
-  
-      for await (const note of response) {
-        const chunk = note.choices[0].delta.content;
-        if (chunk) {
-          buffer += chunk
-          parserStream.write(chunk);
-        }
-      }
-
-      triggerNotification('success')
+    if(!openAiKey){
+      triggerNotification('error', 'Please add an Open AI api key.')
     }
 
-    catch (e) {
-      console.error(e)
-      triggerNotification('error')
+    else if(!userNotes){
+      triggerNotification('error', 'There are no notes to submit. Please add notes and try again.')
+    }
+
+    else {
+      try {
+        const response = await generateNotes(userNotes!, openAiKey)
+  
+        let buffer = ''
+  
+        const parserStream = new WritableStream({
+  
+          onclosetag() {
+            noteSetter(buffer)
+            buffer = '';
+          },
+  
+        });
+  
+        for await (const note of response) {
+          const chunk = note.choices[0].delta.content;
+          if (chunk) {
+            buffer += chunk
+            parserStream.write(chunk);
+          }
+        }
+  
+        triggerNotification('success')
+      }
+  
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      catch (e: any) {
+        if(e.message === 'Access Denied'){
+          triggerNotification('error', "There was an issue submitting your notes. Please ensure your Open AI api key is correct in settings.")
+        }
+        else{
+          triggerNotification('error')
+        }
+      }
     }
 
   }
@@ -214,9 +235,12 @@ export const App = () => {
 
   return (
     <div className="appContainer">
-      <Nav />
+      <Nav keySetter={keySetter} />
       <div className="panelContainer">
         {contextHolder}
+        {!openAiKey && (
+          <h4 className="keyWarning">Please open settings and add your Open AI api key</h4>
+        )}
         <Collapse items={collapseItems} ghost={true} defaultActiveKey={['1', '2']} size='large' />
       </div>
     </div>

@@ -1,8 +1,8 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({ apiKey: 'Enter Key Here', dangerouslyAllowBrowser: true });
+export const generateNotes = async (notes: string, openAiKey?: string) => {
 
-export const generateNotes = async (notes: string) => {
+  const openai = new OpenAI({ apiKey: openAiKey, dangerouslyAllowBrowser: true });
 
   try {
 
@@ -29,8 +29,13 @@ export const generateNotes = async (notes: string) => {
     return response;
   }
 
-  catch(e){
-    throw new Error(`Error submitting notes: ${e}`)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  catch(e: any){
+    if(e.status === 401){
+      throw new Error('Access Denied')
+    }
+    else{
+      throw new Error(`Error: ${e}`)
+    }
   }
-
 }

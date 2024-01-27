@@ -7,6 +7,21 @@
             background-color: $primary_dark_mode;
             border-color: $secondary_dark_mode !important;
 
+            .ant-input {
+                border-radius: 2px;
+                width: 350px;
+            }
+
+            input.ant-input:hover {
+                border: none;
+            }
+
+            input.ant-input:focus {
+                border: none;
+                box-shadow: none;
+                transition: none;
+            }
+
             .ant-modal-content,
             .ant-modal-title,
             .ant-modal-close-x,
@@ -39,14 +54,17 @@
                 background-color: $primary_dark_mode;
                 color: $secondary_dark_mode;
 
-                div span, div i {
+                div span,
+                div i {
                     color: $secondary_dark_mode;
                 }
             }
 
             .ant-menu-submenu-title:hover {
                 background-color: $primary_dark_mode;
-                span, i {
+
+                span,
+                i {
                     color: $tertiary_dark_mode;
                 }
             }
@@ -61,15 +79,22 @@
 
             .ant-modal-close:hover {
 
-                    background-color: $primary_dark_mode;
-                    svg {
-                        color: $tertiary_dark_mode
-                    }
-                
+                background-color: $primary_dark_mode;
+
+                svg {
+                    color: $tertiary_dark_mode
+                }
+
             }
 
             .ant-modal-header {
                 margin-bottom: 25px;
+            }
+
+            @media(max-width: 550px) {
+                input.ant-input {
+                    width: 200px;
+                }
             }
 
         }
@@ -80,7 +105,7 @@
 
     border-bottom: 2px solid $secondary_dark_mode;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; 
 
     .logo {
         padding: 10px 0px 15px 10px;
@@ -101,4 +126,5 @@
     .settingsIcon:hover {
         color: $tertiary_dark_mode
     }
+
 }
