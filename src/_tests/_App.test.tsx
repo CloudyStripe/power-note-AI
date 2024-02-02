@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { EventEmitter } from 'events';
 import { App } from '../App'
 
@@ -14,9 +14,9 @@ const mockNotes = jest.fn((args: string) => {
     mockStream[Symbol.asyncIterator] = async function* () {
 
         yield { choices: [{ delta: { content: `${args}` } }] };
-        
+
         mockStream.emit('end');
-        
+
     };
 
     return mockStream;
@@ -56,18 +56,44 @@ jest.mock('html-to-docx', () => (() => mockHtmlExport()))
 
 describe('App', () => {
 
-    beforeEach(() => jest.clearAllMocks())
+    const injectKey = async () => {
+
+        const settingsEl = document.querySelector('.settingsIcon')
+        
+        act(() => {
+            fireEvent.click(settingsEl!)
+        })
+
+        const keyHeaderEl = document.querySelector('.keyHeader div')
+
+        act(() => {
+            fireEvent.click(keyHeaderEl!)
+        })
+
+        const keyInput = document.querySelector('.keyInput')
+
+        act(() => {
+            fireEvent.change(keyInput!, { target: { value: 'test' } })
+        })
+    }
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    })
+
     it('renders without crashing', () => {
 
         renderComponent()
+
 
         const el = document.querySelector('.panelContainer')
         expect(el).not.toBeNull()
     })
 
-    it('submit buttons calls service', () => {
+    it('submit buttons calls service', async () => {
 
         renderComponent()
+        await injectKey()
 
         const noteInput = document.querySelector('.noteInput')
         const submitBtn = document.querySelector('.submitBtn')
@@ -81,6 +107,7 @@ describe('App', () => {
     it('export button calls export docx function', async () => {
 
         renderComponent()
+        await injectKey()
 
         const noteInput = document.querySelector('.noteInput')
         const noteResult = document.querySelector('.noteResult')
@@ -115,6 +142,7 @@ describe('App', () => {
 
     it('clear generated notes button clears generated notes', async () => {
         renderComponent()
+        await injectKey()
 
         const noteInput = document.querySelector('.noteInput')
         const noteResult = document.querySelector('.noteResult')
@@ -137,6 +165,7 @@ describe('App', () => {
     it('successful generation pops success notification', async () => {
 
         renderComponent()
+        await injectKey()
 
         const noteInput = document.querySelector('.noteInput')
         const noteResult = document.querySelector('.noteResult')

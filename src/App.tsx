@@ -9,6 +9,7 @@ import { Nav } from './navbar/navbar';
 import useNotification from 'antd/es/notification/useNotification';
 import { WritableStream } from 'htmlparser2/lib/WritableStream';
 import './App.scss'
+import { Outcome } from './utils/types/enums';
 
 export const App = () => {
 
@@ -48,7 +49,7 @@ export const App = () => {
   }, [userNotes])
 
   const triggerNotification = (status: string, summary?: string) => {
-    if (status === 'success') {
+    if (status === Outcome.Success) {
       api.success({
         className: "notification",
         message: "Success!",
@@ -58,7 +59,7 @@ export const App = () => {
       })
       setLoading(false)
     }
-    if (status === 'error') {
+    if (status === Outcome.Error) {
       api.error({
         className: "notification",
         message: "Oops!",
@@ -81,7 +82,7 @@ export const App = () => {
           setUserNotes(userNotes + message)
         }
 
-        sendResponse({ status: 'success' })
+        sendResponse({ status: Outcome.Success })
       }
     })
 
@@ -92,11 +93,15 @@ export const App = () => {
     setLoading(true)
 
     if(!openAiKey){
-      triggerNotification('error', 'Please add an Open AI api key.')
+      triggerNotification(Outcome.Error, 'Please add an Open AI api key.')
+    }
+
+    else if(charCount > charLimit){
+      triggerNotification(Outcome.Error, 'Input is too large. Please reduce the size of your notes and try again.')
     }
 
     else if(!userNotes){
-      triggerNotification('error', 'There are no notes to submit. Please add notes and try again.')
+      triggerNotification(Outcome.Error, 'There are no notes to submit. Please add notes and try again.')
     }
 
     else {
@@ -122,16 +127,16 @@ export const App = () => {
           }
         }
   
-        triggerNotification('success')
+        triggerNotification(Outcome.Success)
       }
   
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       catch (e: any) {
         if(e.message === 'Access Denied'){
-          triggerNotification('error', "There was an issue submitting your notes. Please ensure your Open AI api key is correct in settings.")
+          triggerNotification(Outcome.Error, "There was an issue submitting your notes. Please ensure your Open AI api key is correct in settings.")
         }
         else{
-          triggerNotification('error')
+          triggerNotification(Outcome.Error)
         }
       }
     }
@@ -178,7 +183,6 @@ export const App = () => {
           </Button>
           <Button
             className="button submitBtn"
-            disabled={charCount > charLimit}
             icon={<SendOutlined />}
             loading={loading}
             onClick={submitNotes}
