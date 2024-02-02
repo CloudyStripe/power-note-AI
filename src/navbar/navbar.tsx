@@ -13,7 +13,7 @@ export const Nav: React.FC<INav> = (props) => {
 
     const [settingsOpen, setSettingsOpen] = useState<boolean>(false)
 
-    const {SubMenu} = Menu
+    const { SubMenu } = Menu
 
     return (
         <div className="navContainer">
@@ -30,21 +30,23 @@ export const Nav: React.FC<INav> = (props) => {
                 footer={null}
                 onCancel={() => setSettingsOpen(false)}
                 open={settingsOpen}
-                title="Settings">
+                title="Settings"
+            >
                 <Menu
                     mode='inline'
-                    defaultSelectedKeys={['on']}>
-                        <SubMenu title="Highlight & Export" icon={<HighlightOutlined/>}>
-                            <Menu.Item key='on'>
-                                On
-                            </Menu.Item>
-                            <Menu.Item key='off'>
-                                Off
-                            </Menu.Item>
-                        </SubMenu>
-                    <SubMenu key="open-ai-key" title="Open AI Key" icon={<KeyOutlined/>}>
+                    defaultSelectedKeys={['on']}
+                >
+                    <SubMenu title="Highlight & Export" icon={<HighlightOutlined />}>
+                        <Menu.Item key='on'>
+                            On
+                        </Menu.Item>
+                        <Menu.Item key='off'>
+                            Off
+                        </Menu.Item>
+                    </SubMenu>
+                    <SubMenu className="keyHeader" title="Open AI Key" icon={<KeyOutlined />}>
                         <Menu.Item key="input">
-                            <Input placeholder="Open AI Key" onChange={(e) => keySetter(e.target.value)} />
+                            <Input className="keyInput" placeholder="Open AI Key" onChange={(e) => keySetter(e.target.value)} />
                         </Menu.Item>
                     </SubMenu>
                 </Menu>
