@@ -38,7 +38,6 @@ describe('Content Script', () => {
 
         const text = 'Some text to select';
         const p = document.createElement('p');
-        const span = document.createElement('span')
 
         p.textContent = text;
         document.body.appendChild(p);
