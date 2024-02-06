@@ -1,4 +1,4 @@
-import { HighlightOutlined, KeyOutlined, SettingOutlined } from '@ant-design/icons';
+import { EyeInvisibleOutlined, EyeTwoTone, HighlightOutlined, KeyOutlined, SettingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Input, Menu, Modal } from 'antd';
 import './navbar.scss'
@@ -46,7 +46,12 @@ export const Nav: React.FC<INav> = (props) => {
                     </SubMenu>
                     <SubMenu className="keyHeader" title="Open AI Key" icon={<KeyOutlined />}>
                         <Menu.Item key="input">
-                            <Input className="keyInput" placeholder="Open AI Key" onChange={(e) => keySetter(e.target.value)} />
+                            <Input.Password
+                                className="keyInput" 
+                                placeholder="Open AI Key" 
+                                onChange={(e) => keySetter(e.target.value)}
+                                iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                            />
                         </Menu.Item>
                     </SubMenu>
                 </Menu>
