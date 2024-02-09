@@ -47,7 +47,7 @@ const mockError = jest.fn();
 jest.mock('antd/es/notification/useNotification', () => {
     return jest.fn(() => [
         { success: () => mockSuccess(), error: () => mockError() },
-        jest.fn() // Mock contextHolder
+        jest.fn()
     ]);
 });
 
@@ -70,7 +70,7 @@ describe('App', () => {
             fireEvent.click(keyHeaderEl!)
         })
 
-        const keyInput = document.querySelector('.keyInput')
+        const keyInput = document.querySelector('.keyInput input')
 
         act(() => {
             fireEvent.change(keyInput!, { target: { value: 'test' } })
