@@ -1,6 +1,6 @@
 # Power Note AI
 
-Built for Node versions > 18
+Built on Node 18
 
 # Run
 
