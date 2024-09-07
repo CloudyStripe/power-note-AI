@@ -1,26 +1,20 @@
 import { EyeInvisibleOutlined, EyeTwoTone, HighlightOutlined, KeyOutlined, SettingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Input, Menu, Modal } from 'antd';
-import './navbar.scss'
+import './navbar.scss';
 
 interface INav {
     keySetter: (key: string) => void;
 }
 
 export const Nav: React.FC<INav> = (props) => {
-
     const { keySetter } = props;
-
-    const [settingsOpen, setSettingsOpen] = useState<boolean>(false)
-
+    const [settingsOpen, setSettingsOpen] = useState(false);
     const { SubMenu } = Menu
 
     return (
         <div className="navContainer">
-            <img
-                className="logo"
-                src="/images/logo_dark.png"
-            />
+            <img className="logo" src="/images/logo_dark.png" alt="Logo" />
             <SettingOutlined
                 onClick={() => setSettingsOpen(!settingsOpen)}
                 className="settingsIcon"
@@ -32,17 +26,10 @@ export const Nav: React.FC<INav> = (props) => {
                 open={settingsOpen}
                 title="Settings"
             >
-                <Menu
-                    mode='inline'
-                    defaultSelectedKeys={['on']}
-                >
+                <Menu mode='inline' defaultSelectedKeys={['on']}>
                     <SubMenu title="Highlight & Export" icon={<HighlightOutlined />}>
-                        <Menu.Item key='on'>
-                            On
-                        </Menu.Item>
-                        <Menu.Item key='off'>
-                            Off
-                        </Menu.Item>
+                        <Menu.Item key='on'>On</Menu.Item>
+                        <Menu.Item key='off'>Off</Menu.Item>
                     </SubMenu>
                     <SubMenu className="keyHeader" title="Open AI Key" icon={<KeyOutlined />}>
                         <Menu.Item key="input">
