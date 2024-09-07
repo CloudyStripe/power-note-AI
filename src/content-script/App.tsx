@@ -63,6 +63,27 @@ export const App = () => {
         }
     };
 
+    chrome.runtime.onConnect.addListener((port) => {
+        if(styleEl === null){
+            addListeners()
+        }
+
+        port.onDisconnect.addListener(() => {
+            chrome.storage.local.set({ panelOpen: false })
+            removeListeners()
+        })
+    })
+
+    chrome.storage.onChanged.addListener((changes) => {
+        if(changes.panelOpen.newValue == false){
+            removeListeners()
+        }
+        if(changes.panelOpen.newValue == true){
+            addListeners()
+            checkForSelectedTextAndOpen();
+        }
+    })
+
     const handleSubmit = async () => {
         try {
             await chrome.runtime.sendMessage(selectedText);
